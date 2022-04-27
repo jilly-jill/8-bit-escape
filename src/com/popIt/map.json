@@ -1,0 +1,14 @@
+{
+    "Dining Room": {
+        "south": "Kitchen"
+    },
+    "Living Room": {
+        "west": "Kitchen",
+        "item": "Turtle Shell"
+    },
+    "Kitchen": {
+        "north": "Dining Room",
+        "east": "Living Room",
+        "item": "Mushroom"
+    }
+}
