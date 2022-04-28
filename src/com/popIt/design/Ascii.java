@@ -54,6 +54,15 @@ import java.io.*;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+        } public static void commands(){
+            String pathName = "C:\\Users\\jilli\\OneDrive\\Desktop\\8-bit-escape\\src\\com\\popIt\\design\\Opening.txt";
+            generate(pathName);
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
     }
