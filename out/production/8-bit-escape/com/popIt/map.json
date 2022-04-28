@@ -1,0 +1,143 @@
+{
+    "Start": {
+        "north": "Corridor1"
+    },
+
+    "Corridor1": {
+        "west": "Corridor2",
+        "east": "Corridor3",
+        "text": "You step into a corridor. The labyrinth walls tower upwards, infinitely. The enclave you were just standing is now closed as a wall emerges. They have an iridescence to them but no visible source of light. It is dim but enough to light your immediate path. You can continue east or west."
+    },
+
+    "Corridor2": {
+        "east": "Corridor1",
+        "north": "Corridor5",
+        "west": "Trap1",
+        "text": "You continue to walk through the eerily quiet halls. Attempting to find some clue regarding the tokens and their location. You can continue west, north, or east"
+    },
+
+    "Corridor3": {
+        "west": "Corridor1",
+        "north": "Corridor4",
+        "east": "Trap2",
+        "text": "You notice the only sound you hear is the echoing of your steps. Did you hear that? It sounded like a faint scream. The hair on your neck begins to rise. You can continue north, east or west"
+    },
+
+    "Corridor4": {
+        "west": "Pillage",
+        "north": "Dario",
+        "south": "Corridor3",
+        "text": "As you move through the corridor, the scream becomes louder. It pierces the air for a few seconds and then fades away before returning. Along the walls there is a single shadow, faintly dancing in rhythm to the screams, on the wall. You can continue west, north, or south"
+    },
+
+    "Corridor5": {
+        "north": "Corridor6",
+        "east": "Dario",
+        "south": "Corridor4",
+        "text": "You see an unmistakable light radiate on the walls, almost as if a torch is near. You can continue north, east or south."
+    },
+
+    "Corridor6": {
+        "north": "Trap3",
+        "east": "Corridor7",
+        "south": "Corridor5",
+        "text": "You continue winding through what feels like an endless maze of corridors. You can continue north, east, or south."
+    },
+
+    "Corridor7": {
+        "west": "Corridor6",
+        "north": "Corridor8",
+        "east": "Dario",
+        "south": "Pillage",
+        "text": "You see a shadow faintly creep across the wall. Flickering as if a fire was near. You can hear a faint scream in the distance. You all of a sudden feel a chill creep down your spine. You can continue north, south, east or west."
+    },
+
+    "Corridor8": {
+        "north": "Corridor10",
+        "east": "Corridor9",
+        "south": "Corridor7",
+        "text": "The faint glimmer of the walls continue to provide the faintest path forward. You stop to let your eyes adjust and to take a breath. You can continue north, east or south."
+    },
+
+    "Corridor9": {
+        "west": "Corridor8",
+        "north": "Trap4",
+        "text": "You turn another corner to just see more corridors and no end. You can continue north or return west"
+    },
+
+    "Corridor10": {
+        "north": "Corridor11",
+        "south": "Corridor9",
+        "text": "Your mind races as you continue to move forward. Your heart rhythmically beats as you continue to move forward - the beats calling a cadence, the only thing keeping your mind, sane. You can continue north or south."
+    },
+
+    "Corridor11": {
+        "west": "Corridor12",
+        "north": "Corridor14",
+        "text": "The heavy smell of iron strikes your senses. It is thick in the air. As you continue moving forward you recognize the smell as blood. You feel an uneasiness come over you. You can continue west, north, south or east."
+    },
+
+    "Corridor12": {
+        "north": "MazeCenter",
+        "east": "Corridor11",
+        "text": "The walls of the labyrinth feel like they're winding tighter. Coiling like a snake corner, over corner. You can continue north or east"
+    },
+
+    "Corridor13": {
+        "west": "Corridor14",
+        "south": "ExplosionsAndZombies",
+        "text": "You are jarred by the sudden thickness of gun-smoke in the air. You choke trying to see if you can find the source. You can continue west or south."
+    },
+
+    "Corridor14": {
+        "west": "MazeCenter",
+        "east": "Corridor13",
+        "south": "Corridor11",
+        "text": "It feels like you are winding closer towards the center. You wrap around another corner. You can continue west, east, or south."
+    },
+
+    "Trap1": {
+        "east": "Corridor2",
+        "text": "You hear the voice of the figure from the mall in your ear 'Looks like a dead end, try again!' Their voice trails off with a laugh. You can only return east."
+    },
+
+    "Trap2": {
+        "west": "Corridor3",
+        "text": "'You're going the wrong way', the voice laughs. You have no way forward, you can only return west."
+    },
+
+    "Trap3": {
+        "south": "Corridor6",
+        "text": "On the wall you see various wrong way and dead end signs. You hear laughter. You can only return south."
+    },
+
+    "Trap4": {
+        "south": "Corridor9",
+        "text": "The corridor is pitch black, even the walls have stopped emitting light. All of the sudden a loud shout cracks across the quiet hallway. 'TRY AGAIN'. You can only return south."
+    },
+
+    "Pillager": {
+        "west": "Corridor5",
+        "north": "Corridor7",
+        "east": "Corridor4",
+        "text": "CAVE PILLAGER INTRO"
+    },
+
+    "Dario": {
+        "west": "Corridor7",
+        "south": "Corridor4",
+        "text": "DARIO INTRO"
+    },
+
+    "ExplosionsAndZombies": {
+        "west": "Corridor11",
+        "north": "Corridor13",
+        "text": "EXPLOSIONS AND ZOMBIES INTRO"
+    },
+
+    "MazeCenter": {
+        "east": "Corridor14",
+        "south": "Corridor12",
+        "text": "MAZE CENTER TEXT"
+    }
+}
