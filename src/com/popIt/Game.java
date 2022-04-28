@@ -4,6 +4,19 @@ import java.util.*;
 import com.popIt.design.*;
 import java.util.*;
 
+/* TODO: Resident Evil mini-game - Hallway - Walkie Talkie:
+    If user gets walkie talkie, iterate through inventory once item is set
+        if user has walkie talkie, have walkie talkie print 'message' associated w/ json object
+        once message is printed, pop walkie-talkie from user inventory
+    ie:
+        get(item)
+        if player.getInventory.matches["walkie talkie"]{
+            print(however we call the parsed json - walkie talkie -> message)
+            remove item from json (need to see parse docs before working out logic)
+        else{.....}
+
+
+ */
 public class Game {
                     private final Player player = new Player();
                     private final Scanner scanner = new Scanner(System.in);

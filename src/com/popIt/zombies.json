@@ -1,0 +1,37 @@
+
+{
+  "Start": {
+    "north": "hall",
+    "text": "The smell of gun-smoke and blood merge as you open your eyes and find yourself in what appears to be a massive crumbling manor. Shattered windows, upended furniture and browned blood stains appear to be the new design motif. You hear gunshots in the distance and a chorus of guttural growls - growls that almost sounded human."
+  },
+  "Hall": {
+    "north": "Infirmary",
+    "south": "Start",
+    "items": "Walkie Talkie",
+    "message": "A voice cracks over the radio 'HELLO! HELLO! IS ANYONE STILL IN THERE? YOU NEED TO GET OUT, NOW! IT'S LOOSE IN THE MANOR, TOTALLYNOTNEMESIS WAS RELEASED BY THE RAINCOAT CORP. IT'S A NEW ROUND OF TESTING ON HUMAN SUBJECTS. I KNOW THERE'S AT LEAST A SHOTGUN, SHELLS, AND MAYBE THE MAKINGS OF A MOLOTOV COCKTAIL. THE INFIRMARY SHOULD HAVE ADRENALINE. YOU'RE GOING TO NEED IT. GET A WEAPON AND THE ADRENALINE AND GET THE HELL OUT OF THERE!' The message ends.",
+    "text": "You look around the hallway you're in, a broken chandelier and shattered glass decorate the marble floor. You see a walkie talkie sitting on a side table. You can continue north or south."
+  },
+  "Infirmary": {
+    "west": "Kitchen",
+    "north": "Lab",
+    "south": "Hall",
+    "items": "Adrenaline, Bandages"
+  },
+  "Kitchen": {
+    "north": "Library",
+    "east": "Infirmary",
+    "south": "Basement",
+    "items": "Bottle of Rum"
+  },
+  "Basement": {
+    "north": "Kitchen",
+    "items": "Rusty Shotgun"
+  },
+  "Library": {
+    "east": "Lab",
+    "south": "Kitchen",
+    "items": "Lighter, Shotgun Shells"
+  }
+
+
+  }
