@@ -15,22 +15,31 @@
     "west": "Kitchen",
     "north": "Lab",
     "south": "Hall",
-    "items": "Adrenaline, Bandages"
+    "items": "Adrenaline, Bandages",
+    "text": "You enter the infirmary. Supplies have been completely wiped from the shelves. The once white sheets were stained and shredded. As you shift through the remnants of supplies, mostly cotton balls and tongue compressors, you find a roll of cotton bandages. Behind a counter you find a box, tucked away, almost as it was hidden. Inside is the adrenaline. What would you like to do? You can continue west, north, or south."
   },
   "Kitchen": {
     "north": "Library",
     "east": "Infirmary",
     "south": "Basement",
-    "items": "Bottle of Rum"
+    "items": "Bottle of Rum",
+    "text": "More bare shelves in the kitchen. A few cans adorn the shelves, past expiration - even for canned goods. On the table, half a bottle of high-proof rum, covered in dust. What would you like to do? You can move north, east, or south."
   },
   "Basement": {
     "north": "Kitchen",
-    "items": "Rusty Shotgun"
+    "items": "Rusty Shotgun",
+    "text": "You take a deep breath as you open the door to the basement. The air is cool and damp. Sound exists in a vacuum. You hear nothing. A basement devoid of the sounds of rodents. You quickly survey the basement in the dark. You spot a rusted shotgun leaned against a support beam. What would you like to do? You can move north"
   },
   "Library": {
     "east": "Lab",
     "south": "Kitchen",
-    "items": "Lighter, Shotgun Shells"
+    "items": "Lighter, Shotgun Shells",
+    "text": "You enter what appears to be a once massive library. Volumes lie tattered on faded and stained intricate rugs. A leather sofa is torn, the sofa filling pouring out, stained with deep brown stains. Old blood. You survey the room, On one of the shelves a white cardboard box is tucked behind a massive tome. Shotgun shells. On the desk, a Zippo lighter. What would you like to do? You can move east, or south."
+  },
+  "Lab": {
+    "west": "Library",
+    "south": "Infirmary",
+    "text": "Something recently happened here. You feel an electricity pulsing through the lab. Your heart rate begins to increase. Tubing, and IV cables lie on the ground. An observation window is shattered. Shards of glass crunch underfoot. What would you like to do? You can move west or south."
   }
 
 
