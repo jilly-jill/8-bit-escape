@@ -1,7 +1,4 @@
 {
-    "Start": {
-        "north": "Corridor1"
-    },
 
     "Corridor1": {
         "west": "Corridor2",
