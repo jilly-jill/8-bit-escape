@@ -1,14 +1,121 @@
 {
-    "Dining Room": {
-        "south": "Kitchen"
+    "Start": {
+        "north": "Corridor1"
     },
-    "Living Room": {
-        "west": "Kitchen",
-        "item": "Turtle Shell"
+
+    "Corridor1": {
+        "west": "Corridor2",
+        "east": "Corridor3",
+        "text": ""
     },
-    "Kitchen": {
-        "north": "Dining Room",
-        "east": "Living Room",
-        "item": "Mushroom"
+
+    "Corridor2": {
+        "east": "Corridor1",
+        "north": "Corridor5",
+        "west": "Trap1"
+    },
+
+    "Corridor3": {
+        "west": "Corridor1",
+        "north": "Corridor4",
+        "east": "Trap2"
+    },
+
+    "Corridor4": {
+        "west": "Pillage",
+        "north": "Dario",
+        "south": "Corridor3"
+    },
+
+    "Corridor5": {
+        "north": "Corridor6",
+        "east": "Dario",
+        "south": "Corridor4"
+    },
+
+    "Corridor6": {
+        "north": "Trap3",
+        "east": "Corridor7"
+    },
+
+    "Corridor7": {
+        "west": "Corridor6",
+        "north": "Corridor8",
+        "east": "Dario",
+        "south": "Pillage"
+    },
+
+    "Corridor8": {
+        "north": "Corridor10",
+        "east": "Corridor9",
+        "south": "Corridor7"
+    },
+
+    "Corridor9": {
+        "west": "Corridor8",
+        "north": "Trap4"
+    },
+
+    "Corridor10": {
+        "north": "Corridor11",
+        "south": "Corridor9"
+    },
+
+    "Corridor11": {
+        "west": "Corridor12",
+        "north": "Corridor14"
+    },
+
+    "Corridor12": {
+        "north": "MazeCenter",
+        "east": "Corridor11"
+    },
+
+    "Corridor13": {
+        "west": "Corridor14",
+        "south": "ExplosionsAndZombies"
+    },
+
+    "Corridor14": {
+        "west": "MazeCenter",
+        "east": "Corridor13",
+        "south": "Corridor11"
+    },
+
+    "Trap1": {
+        "east": "Corridor2"
+    },
+
+    "Trap2": {
+        "west": "Corridor3"
+    },
+
+    "Trap3": {
+        "south": "Corridor6"
+    },
+
+    "Trap4": {
+        "south": "Corridor9"
+    },
+
+    "Pillager": {
+        "west": "Corridor5",
+        "north": "Corridor7",
+        "east": "Corridor4"
+    },
+
+    "Dario": {
+        "west": "Corridor7",
+        "south": "Corridor4"
+    },
+
+    "ExplosionsAndZombies": {
+        "west": "Corridor11",
+        "north": "Corridor13"
+    },
+
+    "MazeCenter": {
+        "east": "Corridor14",
+        "south": "Corridor12"
     }
 }
