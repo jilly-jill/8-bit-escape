@@ -22,16 +22,6 @@ public class Game {
                     private Map map = new Map();
                     private boolean isOver;
                     private boolean endGamePlay;
-                    private String currentRoom;
-
-
-                    public String getCurrentRoom() {
-                        return currentRoom;
-                    }
-
-                    public void setCurrentRoom(String currentRoom) {
-                        this.currentRoom = currentRoom;
-                    }
 
 
                     public boolean isOver() {
@@ -116,7 +106,7 @@ public class Game {
                             while (!validInput) {
                                 String username = scanner.nextLine();
                                 if (username.matches("[a-zA-Z]{2,15}")) {
-                                    player.setUsername(username); // TODO: Create a player class
+                                    player.setUsername(username);
                                     validInput = true;
                                 } else {
                                     System.out.println(
@@ -185,9 +175,6 @@ public class Game {
                             }
 
 
-
-
-                            // String inputGamePlay = scanner.nextLine().toLowerCase();
                             // do game stuff
 
                             if (move.matches("show menu|menu")) {
@@ -216,11 +203,6 @@ public class Game {
                                 }
                             }
 
-                            if (move.matches("go ")) {
-                                // currentRoom = map.get(currentRoom);
-                                // TODO: match key in nested JSON
-                                // currentRoom = "the new room"; //  from value of JSON key
-                            }
 
 
                             // if dead => break;
