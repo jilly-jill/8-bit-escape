@@ -28,6 +28,8 @@ public class input {
 
         // Need to add more conditionals the more actions that we add (go, get, use)
         // Keywords: go(N,S,E,W) , get(all items), use(weapon, shell, antidote, tablet), engage(with npc)
+
+
         if (inputList[0].matches("go|move|walk")) {
             // if inputList[1] is need 4 directions: n|north, s|south, e|east, w|west
             // need to check if it is a valid location within the JSON object as well.
@@ -48,6 +50,7 @@ public class input {
                 System.out.println("You need to choose a valid direction [n]orth, [s]outh, [e]ast, [w]est");
             }
         }
+        //turn to function -> pass in inventory return updated inventory
         // the logic for when we get one of the items
         else if (inputList[0].matches("get|grab|take")) {
 

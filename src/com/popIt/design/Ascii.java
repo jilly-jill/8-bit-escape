@@ -8,8 +8,6 @@ import java.io.*;
     BufferReader class
      */
         public static void main(String[] args){
-            splashScreen();
-            opening();
             commands();
         }
 
@@ -44,33 +42,33 @@ import java.io.*;
 
             String pathName = "src/com/popIt/design/art/splash.txt";
             generate(pathName);
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+/*            try {
+//                Thread.sleep(5000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }*/
         }
 
         public static void opening(){
             String pathName = "src/com/popIt/design/art/opening.txt";
             generate(pathName);
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+//            try {
+////                Thread.sleep(10000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
             }
 
-        } public static void commands(){
+        public static void commands(){
             String pathName = "src/com/popIt/design/art/directions.txt";
             generate(pathName);
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+/*           try {
+//                Thread.sleep(10000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+*/            }
         }
 
-    }
+
 
 
 
