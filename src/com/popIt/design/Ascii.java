@@ -8,8 +8,6 @@ import java.io.*;
     BufferReader class
      */
         public static void main(String[] args){
-            splashScreen();
-            opening();
             commands();
         }
 

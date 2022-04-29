@@ -1,13 +1,13 @@
 {
 
-    "Corridor1": {
+    "corridor1": {
         "west": "Corridor2",
         "east": "Corridor3",
         "lookroom": "The corridor is dark. A light glimmers off of the white walls.",
         "text": "You step into a corridor. The labyrinth walls tower upwards, infinitely. The enclave you were just standing is now closed as a wall emerges. They have an iridescence to them but no visible source of light. It is dim but enough to light your immediate path. You can continue east or west."
     },
 
-    "Corridor2": {
+    "corridor2": {
         "east": "Corridor1",
         "north": "Corridor5",
         "west": "Trap1",
@@ -15,7 +15,7 @@
         "text": "You continue to walk through the eerily quiet halls. Attempting to find some clue regarding the tokens and their location. You can continue west, north, or east"
     },
 
-    "Corridor3": {
+    "corridor3": {
         "west": "Corridor1",
         "north": "Corridor4",
         "east": "Trap2",
@@ -23,7 +23,7 @@
         "text": "You notice the only sound you hear is the echoing of your steps. Did you hear that? It sounded like a faint scream. The hair on your neck begins to rise. You can continue north, east or west"
     },
 
-    "Corridor4": {
+    "corridor4": {
         "west": "Pillage",
         "north": "Dario",
         "south": "Corridor3",
@@ -31,7 +31,7 @@
         "text": "As you move through the corridor, the scream becomes louder. It pierces the air for a few seconds and then fades away before returning. Along the walls there is a single shadow, faintly dancing in rhythm to the screams, on the wall. You can continue west, north, or south"
     },
 
-    "Corridor5": {
+    "corridor5": {
         "north": "Corridor6",
         "east": "Dario",
         "south": "Corridor4",
@@ -39,7 +39,7 @@
         "text": "You see an unmistakable light radiate on the walls, almost as if a torch is near. You can continue north, east or south."
     },
 
-    "Corridor6": {
+    "corridor6": {
         "north": "Trap3",
         "east": "Corridor7",
         "south": "Corridor5",
@@ -47,7 +47,7 @@
         "text": "You continue winding through what feels like an endless maze of corridors. You can continue north, east, or south."
     },
 
-    "Corridor7": {
+    "corridor7": {
         "west": "Corridor6",
         "north": "Corridor8",
         "east": "Dario",
@@ -56,7 +56,7 @@
         "text": "You see a shadow faintly creep across the wall. Flickering as if a fire was near. You can hear a faint scream in the distance. You all of a sudden feel a chill creep down your spine. You can continue north, south, east or west."
     },
 
-    "Corridor8": {
+    "corridor8": {
         "north": "Corridor10",
         "east": "Corridor9",
         "south": "Corridor7",
