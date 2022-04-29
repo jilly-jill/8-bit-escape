@@ -136,9 +136,7 @@ public class Game {
                     }
 
                     private void getCommands() {
-                        // sout commands
-                        System.out.println(
-                                "Commands:\n go [direction]\n get [item] \n engage [character]\n use [item]\n look [item, location]\n show [menu]");
+                       Ascii.commands();
                     }
 
                     private void showStatus() {

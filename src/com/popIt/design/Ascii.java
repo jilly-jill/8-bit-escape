@@ -7,6 +7,11 @@ import java.io.*;
     /* ascii art class pulls ascii art from .txt file via
     BufferReader class
      */
+        public static void main(String[] args){
+            splashScreen();
+            opening();
+            commands();
+        }
 
         //TODO: Timing Variables for Scroll & Art
         public static void generate(String pathName){
@@ -37,7 +42,7 @@ import java.io.*;
         //TODO: Path Names -
         public static void splashScreen(){
 
-            String pathName = "C:\\Users\\jilli\\OneDrive\\Desktop\\8-bit-escape\\src\\com\\popIt\\design\\Splash.txt";
+            String pathName = "src/com/popIt/design/art/splash.txt";
             generate(pathName);
             try {
                 Thread.sleep(5000);
@@ -47,7 +52,16 @@ import java.io.*;
         }
 
         public static void opening(){
-            String pathName = "C:\\Users\\jilli\\OneDrive\\Desktop\\8-bit-escape\\src\\com\\popIt\\design\\Opening.txt";
+            String pathName = "src/com/popIt/design/art/opening.txt";
+            generate(pathName);
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        } public static void commands(){
+            String pathName = "src/com/popIt/design/art/directions.txt";
             generate(pathName);
             try {
                 Thread.sleep(10000);
