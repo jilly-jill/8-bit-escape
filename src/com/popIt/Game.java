@@ -2,7 +2,6 @@ package com.popIt;
 
 import java.util.*;
 import com.popIt.design.*;
-import java.util.*;
 
 /* TODO: Resident Evil mini-game - Hallway - Walkie Talkie:
     If user gets walkie talkie, iterate through inventory once item is set
@@ -20,8 +19,20 @@ import java.util.*;
 public class Game {
                     private final Player player = new Player();
                     private final Scanner scanner = new Scanner(System.in);
+                    private Map map = new Map();
                     private boolean isOver;
                     private boolean endGamePlay;
+                    private String currentRoom;
+
+
+                    public String getCurrentRoom() {
+                        return currentRoom;
+                    }
+
+                    public void setCurrentRoom(String currentRoom) {
+                        this.currentRoom = currentRoom;
+                    }
+
 
                     public boolean isOver() {
                         return isOver;
@@ -91,11 +102,11 @@ public class Game {
 
                     private void getSplashTheme() {
                         //
-                        Ascii.splashScreen();
+//                        Ascii.splashScreen();
                     }
 
                     private void getOpening(){
-                        Ascii.opening();
+//                        Ascii.opening();
                     }
 
                     private void getUsername() {
@@ -131,8 +142,10 @@ public class Game {
                     }
 
                     private void showStatus() {
+                        System.out.println("====================");
                         System.out.println("ROOM status"); // room status => current room and room inventory
                         System.out.println("INVENTORY status"); // player status => current inventory and player lives/health
+                        System.out.println("====================");
 
                     }
 
@@ -151,18 +164,30 @@ public class Game {
                     }
 
                     private void gamePlay() {
-                        //read map json
                         // inventory [] artifact
                         // inventory [] items
-                        // String currentRoom = "";
+
+                        map.setCurrentRoom("start");
+//
 
                         while (true) {
                             showStatus();
+
                             String move = "";
                             while (move.equals("")) {
                                 System.out.println("enter command >");
                                 move = scanner.nextLine().toLowerCase();
                             }
+
+                            String[] moveArray = move.split(" ");
+                            if(moveArray[0].equals("go")){
+                                if(moveArray[1].equals(map.getMap(moveArray[1]))){
+                                    map.setCurrentRoom(map.getCurrentRoom());
+                                }
+                            }
+
+
+
 
                             // String inputGamePlay = scanner.nextLine().toLowerCase();
                             // do game stuff
