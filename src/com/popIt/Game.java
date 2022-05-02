@@ -134,13 +134,12 @@ public class Game {
 
     }
 
-    private boolean checkWin(){
-       String currentRoom = map.getCurrentRoom();
+    private boolean checkWin() {
+        String currentRoom = map.getCurrentRoom();
 
-        if(currentRoom.equals("mazecenter")) {
+        if (currentRoom.equals("mazecenter")) {
             checkWin = true;
-        }
-        else{
+        } else {
             checkWin = false;
         }
         return checkWin;
@@ -180,32 +179,32 @@ public class Game {
             if (moveArray[0].equals("go")) {
                 if (moveArray[1].equals(map.getMap(moveArray[1]))) {
                     map.setCurrentRoom(map.getCurrentRoom());
-                } else if (moveArray[0].equals("look")) {
-                    if (moveArray[1].equals(map.getCurrentRoom())) {
-                        map.roomInfo();
-                    } else if (moveArray[1].equals("item")) {
-                        map.itemInfo();
-                    }
-                } else if (move.matches("show menu|menu")) {
-                    getMenu();
-                    String input = scanner.nextLine().toLowerCase();
-                    if (input.matches("q|quit")) {
-                        System.out.println("Are you sure you want to QUIT?");
-                        String inputQuit = scanner.nextLine().toLowerCase();
-                        if (inputQuit.matches("y|yes")) {
-                            setOver(true);
-                            break;
-                        } else {
-                            continue;
-                        }
-                    }
-                    if (input.matches("r|restart|")) {
-                        setEndGamePlay(true);
+                }
+            } else if (moveArray[0].equals("look")) {
+                if (moveArray[1].equals(map.getCurrentRoom())) {
+                    map.roomInfo();
+                } else if (moveArray[1].equals("item")) {
+                    map.itemInfo();
+                }
+            } else if (move.matches("show menu|menu")) {
+                getMenu();
+                String input = scanner.nextLine().toLowerCase();
+                if (input.matches("q|quit")) {
+                    System.out.println("Are you sure you want to QUIT?");
+                    String inputQuit = scanner.nextLine().toLowerCase();
+                    if (inputQuit.matches("y|yes")) {
+                        setOver(true);
                         break;
+                    } else {
+                        continue;
                     }
-                    if (input.matches("c|continue|")) {
-                        System.out.println("continuing game");
-                    }
+                }
+                if (input.matches("r|restart|")) {
+                    setEndGamePlay(true);
+                    break;
+                }
+                if (input.matches("c|continue|")) {
+                    System.out.println("continuing game");
                 }
             }
             checkWin();
@@ -218,4 +217,5 @@ public class Game {
         }
     }
 }
+
 
