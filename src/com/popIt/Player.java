@@ -5,7 +5,7 @@ import java.util.*;
 class Player {
     //fields
     private String username;
-    private int lives; //player starts with 3 lives
+    private int lives;
     private List<String> inventory = new ArrayList<>();
 
 
@@ -22,8 +22,8 @@ class Player {
         return lives;
     }
 
-    public void setLives() {
-        this.lives = 3;
+    public void setLives(int lives) {
+        this.lives = lives;
     }
 
     public List<String> getInventory() {
@@ -33,7 +33,9 @@ class Player {
     public void setInventory(List<String> inventory) {
         this.inventory = inventory;
     }
+
 }
+
 
 
 

@@ -19,8 +19,7 @@ import com.popIt.design.*;
 
  */
 public class Game {
-
-    private final Player player = new Player();
+    private Player player = new Player();
     private Map map = new Map();
     private final Scanner scanner = new Scanner(System.in);
     private boolean isOver;
@@ -110,18 +109,17 @@ public class Game {
         }
     }
 
-    /* 04-29 SPRINT 1 - Removed getInstructions() changed function to getHelpMenu() for code clarity
-                    -> code was single call to getCommands() - JS */
     private void getHelpMenu() {
         Ascii.commands();
     }
 
-    // TODO - JS - 04/29
     private void showStatus() {
         System.out.println("\n ===== " + player.getUsername() + "'s Current Status =====\n" +
-                "Current Room: " + map.getCurrentRoom() + "\n" +
+                "Current Room: " + map.getCurrentRoom().toUpperCase() + "\n" +
                 "Current Lives: " + player.getLives() + "\n" +
                 "Current Inventory: " + player.getInventory() + "\n" +
+                "Items in Room: map.getItems()\n" +
+                "You can Move: map.availableDirections()\n" +
                 "=====\n");
 
     }
@@ -131,7 +129,7 @@ public class Game {
     }
 
     private void gamePlay() {
-
+        player.setLives(3);
         player.setInventory(null);
         map.setCurrentRoom("start");
 
@@ -140,52 +138,61 @@ public class Game {
 
             String move = "";
             while (move.equals("")) {
-                //check for incorrect input here
                 System.out.println("Enter Command: > ");
                 move = scanner.nextLine().toLowerCase();
             }
 
             String[] moveArray = move.split(" ");
+            String[] itemArray = move.split(" ");
             if (moveArray[0].equals("go")) {
                 if (moveArray[1].equals(map.getMap(moveArray[1]))) {
                     map.setCurrentRoom(map.getCurrentRoom());
                 }
-            }
-
-            if (move.matches("H|h")) {
-                getHelpMenu();
-                String input = scanner.nextLine().toLowerCase();
-                if (input.matches("q|quit")) {
-                    System.out.println("Are you sure you want to QUIT?");
-                    String inputQuit = scanner.nextLine().toLowerCase();
-                    if (inputQuit.matches("y|yes")) {
-                        setOver(true);
-                        break;
-                    } else {
-                        continue;
+                else if (itemArray[0].equals("get")) {
+                    if(itemArray[1].equals(map.getMap(itemArray[1]))){
+                        map.setItems(map.getItems());
+                        }
                     }
                 }
 
-                if (input.matches("r|restart|")) {
-                    setEndGamePlay(true);
-                    break;
-                }
+                    if (move.matches("h|help")) {
+                        String input = scanner.nextLine().toLowerCase();
+                        getHelpMenu();
+                        if (input.matches("q|quit")) {
+                            System.out.println("Are you sure you want to QUIT?");
+                            String inputQuit = scanner.nextLine().toLowerCase();
+                            if (inputQuit.matches("y|yes")) {
+                                setOver(true);
+                                break;
+                            } else {
+                                continue;
+                            }
+                        }
+                        if (input.matches("r|restart|")) {
+                            setEndGamePlay(true);
+                            break;
+                        }
+                        if (input.matches("c|continue|")) {
+                            System.out.println("continuing game");
+                            continue;
+                        }
 
-                if (input.matches("c|continue|")) {
-                    System.out.println("continuing game");
-                    continue;
-                }
-            }
+                try {
+                    if (player.getInventory().contains("token") && map.getCurrentRoom().equalsIgnoreCase("mazeCenter")) {
+                        win();
+                        isOver();
+                    }
 
-            if (player.getInventory().contains("token") && map.getCurrentRoom().contains("mazecenter")) {
-                win();
-                isOver();
-                break;
-            } else {
+                } catch(Exception e){
+                        e.getStackTrace();
+                    }
+
+                }
             }
         }
     }
-}
+
+
 
 
 

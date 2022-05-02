@@ -19,7 +19,8 @@
   |	    |	 				  				                             |       |
   |	    |	 								                             |       |
   |	    |  To Quit the Game: [Q] || To Restart the Game: [R]             |	     |
-  |	    |  While Playing See This Menu: [H]		                         |	     |
+  |	    |  While Playing See This Menu: [H]                              |       |
+  |		|   Press [C] to continue.                                       |	     |
   |     |	                                                             |       |
   |      \                                                               |       |
   |    |  \____________________________________________________________/         |
