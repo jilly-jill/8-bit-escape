@@ -1,10 +1,10 @@
 
 {
-  "Start": {
+  "start": {
     "north": "hall",
     "text": "The smell of gun-smoke and blood merge as you open your eyes and find yourself in what appears to be a massive crumbling manor. Shattered windows, upended furniture and browned blood stains appear to be the new design motif. You hear gunshots in the distance and a chorus of guttural growls - growls that almost sounded human."
   },
-  "Hall": {
+  "hall": {
     "north": "Infirmary",
     "south": "Start",
     "items": "Walkie Talkie",

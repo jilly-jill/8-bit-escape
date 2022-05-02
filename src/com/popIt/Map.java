@@ -11,6 +11,7 @@ class Map {
     private String currentRoom;
     private String roomDesc;
     private String itemDesc;
+    private String items;
 
     public String getCurrentRoom() {
         return currentRoom;
@@ -27,6 +28,10 @@ class Map {
     public String getItemDesc() { return itemDesc; }
 
     public void setItemDesc(String itemDesc) { this.itemDesc = itemDesc; }
+
+    public String items() { return items; }
+
+    public void items(String items) { this.itemDesc = items; }
 
     public String getMap(String direction){
         String result = "";

@@ -5,25 +5,25 @@
     "corridor1": {
         "west": "corridor2",
         "east": "corridor3",
-        "text": "You step into a corridor. The labyrinth walls tower upwards, infinitely. The enclave you were just standing is now closed as a wall emerges.\n They have an iridescence to them but no visible source of light. It is dim but enough to light your immediate path. You can continue east or west."
+        "text": "You step into a corridor. The labyrinth walls tower upwards, infinitely. The enclave you were just standing is now closed as a wall emerges. They have an iridescence to them but no visible source of light. It is dim but enough to light your immediate path. You can continue east or west."
     },
     "corridor2": {
         "east": "corridor1",
         "north": "corridor5",
         "west": "trap1",
-        "text": "You continue to walk through the eerily quiet halls. Attempting to find some clue regarding the tokens and their location.\n You can continue west, north, or east"
+        "text": "You continue to walk through the eerily quiet halls. Attempting to find some clue regarding the tokens and their location. You can continue west, north, or east"
     },
     "corridor3": {
         "west": "corridor1",
         "north": "corridor4",
         "east": "trap2",
-        "text": "You notice the only sound you hear is the echoing of your steps. Did you hear that? It sounded like a faint scream.\n The hair on your neck begins to rise. You can continue north, east or west"
+        "text": "You notice the only sound you hear is the echoing of your steps. Did you hear that? It sounded like a faint scream. The hair on your neck begins to rise. You can continue north, east or west"
     },
     "corridor4": {
         "west": "pillage",
         "north": "dario",
         "south": "corridor3",
-        "text": "As you move through the corridor, the scream becomes louder.\n It pierces the air for a few seconds and then fades away before returning. Along the walls there is a single shadow, faintly dancing in rhythm to the screams, on the wall. You can continue west, north, or south"
+        "text": "As you move through the corridor, the scream becomes louder. It pierces the air for a few seconds and then fades away before returning. Along the walls there is a single shadow, faintly dancing in rhythm to the screams, on the wall. You can continue west, north, or south"
     },
     "corridor5": {
         "north": "corridor6",
@@ -66,17 +66,17 @@
         "text": "The heavy smell of iron strikes your senses. It is thick in the air. As you continue moving forward you recognize the smell as blood. You feel an uneasiness come over you. You can continue west, north, south or east."
     },
     "corridor12": {
-        "north": "mazeCenter",
+        "north": "mazecenter",
         "east": "corridor11",
         "text": "The walls of the labyrinth feel like they're winding tighter. Coiling like a snake corner, over corner. You can continue north or east"
     },
     "corridor13": {
         "west": "corridor14",
-        "south": "explosionsAndZombies",
+        "south": "explosionsandzombies",
         "text": "You are jarred by the sudden thickness of gun-smoke in the air. You choke trying to see if you can find the source. You can continue west or south."
     },
     "corridor14": {
-        "west": "mazeCenter",
+        "west": "mazecenter",
         "east": "corridor13",
         "south": "corridor11",
         "text": "It feels like you are winding closer towards the center. You wrap around another corner. You can continue west, east, or south."
@@ -97,7 +97,7 @@
         "south": "corridor9",
         "text": "The corridor is pitch black, even the walls have stopped emitting light. All of the sudden a loud shout cracks across the quiet hallway. 'TRY AGAIN'. You can only return south."
     },
-    "pillager": {
+    "pillage": {
         "west": "corridor5",
         "north": "corridor7",
         "east": "corridor4",
@@ -108,14 +108,15 @@
         "south": "corridor4",
         "text": "DARIO INTRO"
     },
-    "explosionsAndZombies": {
+    "explosionsandzombies": {
         "west": "corridor11",
         "north": "corridor13",
         "text": "EXPLOSIONS AND ZOMBIES INTRO"
     },
-    "mazeCenter": {
+    "mazecenter": {
         "east": "corridor14",
         "south": "corridor12",
         "text": "MAZE CENTER TEXT"
     }
+
 }
