@@ -1,5 +1,6 @@
 package com.popIt;
 
+import java.io.IOException;
 import java.util.*;
 import com.popIt.design.*;
 
@@ -137,6 +138,19 @@ public class Game {
 
     }
 
+    private void clearScreen() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            }
+            else {
+                System.out.print("\033\143");
+            }
+        } catch (IOException | InterruptedException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     private void showMenu() {
 
         System.out.println("Press Q to quit , R to restart, or C to continue");
@@ -156,9 +170,9 @@ public class Game {
         // inventory [] items
 
         map.setCurrentRoom("start");
-//
 
         while (true) {
+            clearScreen();
             showStatus();
 
             String move = "";
@@ -174,10 +188,16 @@ public class Game {
                 }
             }
 
+            else if (moveArray[0].equals("look")) {
+                if(moveArray[1].equals(map.getCurrentRoom())){
+                    map.roomInfo();
+                }
+                else if (moveArray[1].equals("item")){
+                    map.itemInfo();
+                }
+            }
 
-            // do game stuff
-
-            if (move.matches("show menu|menu")) {
+            else if (move.matches("show menu|menu")) {
                 showMenu();
                 String input = scanner.nextLine().toLowerCase();
                 if (input.matches("q|quit")) {
@@ -189,22 +209,19 @@ public class Game {
                     } else {
                         continue;
                     }
-
                 }
-
                 if (input.matches("r|restart|")) {
                     setEndGamePlay(true);
                     break;
                 }
-
                 if (input.matches("c|continue|")) {
                     System.out.println("continuing game");
-                    continue;
+
                 }
             }
-
-
-
+            else{
+                System.out.println("You need to choose a proper command: go (north | south | east | west), look (room | item)");
+            }
             // if dead => break;
             // if win => break;
         }
