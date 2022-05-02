@@ -1,11 +1,13 @@
 package com.popIt;
 
+import java.util.*;
+
 class Player {
     //fields
     private String username;
-    private int lives; //player starts with 3 lives
-    // inventory list for artifact
-    // inventory list for items
+    private int lives;
+    private List<String> inventory = new ArrayList<>();
+
 
     //Accessor Methods
     public String getUsername() {
@@ -20,7 +22,20 @@ class Player {
         return lives;
     }
 
-    public void setLives() {
-        this.lives = 3;
+    public void setLives(int lives) {
+        this.lives = lives;
     }
+
+    public List<String> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(List<String> inventory) {
+        this.inventory = inventory;
+    }
+
 }
+
+
+
+
