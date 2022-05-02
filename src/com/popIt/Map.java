@@ -9,6 +9,8 @@ import org.json.simple.parser.*;
 class Map {
     JSONParser parser = new JSONParser();
     private String currentRoom;
+    private String roomDesc;
+    private String itemDesc;
 
     public String getCurrentRoom() {
         return currentRoom;
@@ -18,6 +20,13 @@ class Map {
         this.currentRoom = currentRoom;
     }
 
+    public String getRoomDesc() { return roomDesc; }
+
+    public void setRoomDesc(String roomDesc) { this.roomDesc = roomDesc; }
+
+    public String getItemDesc() { return itemDesc; }
+
+    public void setItemDesc(String itemDesc) { this.itemDesc = itemDesc; }
 
     public String getMap(String direction){
         String result = "";
@@ -39,22 +48,59 @@ class Map {
                     setCurrentRoom(roomMap.get(direction));
                     break;
                 }
-
             }
-            //if currentRoom is null then do something Todo: Work on NULL VALUES 4/29/22
-            if(getCurrentRoom() == null){
                 System.out.println("YOU ARE NOW IN " + getCurrentRoom());
-                setCurrentRoom(currentR);
-            } else {
                 result = getCurrentRoom();
-            }
-
-
-
         } catch(Exception e) {
             e.printStackTrace();
         }
 
         return result;
+    }
+
+    public void roomInfo(){
+        try {
+            //instantiate parser to read file
+            Object obj = parser.parse(new FileReader("data/map.json"));
+            JSONObject jsonObject = (JSONObject)obj;
+            // move jsonObject into a hashmap (to use built-in methods to move data)
+            HashMap<String,String> roomMap = (HashMap<String,String>) jsonObject.get(getCurrentRoom());
+            // iterate through jsonObject's key
+            for(Object room : jsonObject.keySet()){
+                // if the room key equals to the currentRoom, then set the room description to that value
+                if(room.toString().equals(getCurrentRoom())){
+                    setRoomDesc(roomMap.get("text"));
+                    break;
+                }
+            }
+            // display the value of lookRoom for 7 seconds then break
+            System.out.println("More information: " + getRoomDesc());
+            Thread.sleep(7000);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void itemInfo(){
+        try {
+            //instantiate parser to read file
+            Object obj = parser.parse(new FileReader("data/map.json"));
+            JSONObject jsonObject = (JSONObject)obj;
+            // move jsonObject into a hashmap (to use built-in methods to move data)
+            HashMap<String,String> roomMap = (HashMap<String,String>) jsonObject.get(getCurrentRoom());
+            // iterate through jsonObject's key
+            for(Object room : jsonObject.keySet()){
+                // if the room key equals to the currentRoom, then set the item description to that value
+                if(room.toString().equals(getCurrentRoom())){
+                    setItemDesc(roomMap.get("text"));
+                    break;
+                }
+            }
+            // display the value of lookRoom for 7 seconds then break
+            System.out.println("More information about the item: " + getItemDesc());
+            Thread.sleep(7000);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }
