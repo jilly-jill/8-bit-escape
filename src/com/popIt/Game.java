@@ -212,7 +212,6 @@ public class Game {
                 win();
                 setOver(true);
                 break;
-
             }
         }
     }
