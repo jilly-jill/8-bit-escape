@@ -42,7 +42,7 @@ public class Game {
     }
 
 
-    public void execute(){
+    public void execute() {
         System.out.println("Executing game...");
         welcome();
         while (!isOver()) {
@@ -54,7 +54,7 @@ public class Game {
                         // if player inventory contains 3 tokens & player is in labyrinth center
                         // else if player lives == 0
                         // break.
-                        if(isOver()){
+                        if (isOver()) {
                             break;
                         }
 
@@ -62,12 +62,12 @@ public class Game {
                         e.printStackTrace();
                     }
 
-                    System.out.println("game is over= "+ isOver());
+                    System.out.println("game is over= " + isOver());
                     System.out.println("end game play= " + isEndGamePlay());
                 }
 
 
-                if(isEndGamePlay()){
+                if (isEndGamePlay()) {
                     setEndGamePlay(false);
                 }
 
@@ -87,7 +87,7 @@ public class Game {
         getSplashTheme();
         getOpening();
         getUsername();
-        getInstruction();
+        getMenu();
 
     }
 
@@ -96,7 +96,7 @@ public class Game {
 //                        Ascii.splashScreen();
     }
 
-    private void getOpening(){
+    private void getOpening() {
 //                        Ascii.opening();
     }
 
@@ -120,30 +120,27 @@ public class Game {
         }
     }
 
-    private void getInstruction() {
-        // sout for story
-        // sout for instructions here
-        getCommands();
-    }
-
-    private void getCommands() {
+    private void getMenu() {
         Ascii.commands();
     }
 
     private void showStatus() {
-        System.out.println("====================");
-        System.out.println("ROOM status"); // room status => current room and room inventory
-        System.out.println("INVENTORY status"); // player status => current inventory and player lives/health
-        System.out.println("====================");
+        System.out.println("\n ===== " + player.getUsername() + "'s Current Status =====\n" +
+                "Current Room: " + map.getCurrentRoom().toUpperCase() + "\n" +
+                "Current Lives: " + player.getLives() + "\n" +
+                "Current Inventory: " + player.getInventory() + "\n" +
+                "Items in Room: map.getItems()\n" +
+                "You can Move: map.availableDirections()\n" +
+                "=====\n");
 
     }
+
 
     private void clearScreen() {
         try {
             if (System.getProperty("os.name").contains("Windows")) {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            }
-            else {
+            } else {
                 System.out.print("\033\143");
             }
         } catch (IOException | InterruptedException ex) {
@@ -151,24 +148,14 @@ public class Game {
         }
     }
 
-    private void showMenu() {
-
-        System.out.println("Press Q to quit , R to restart, or C to continue");
-        // what would you like to do?
-        // scanner input
-        // if input == q
-        // quit = true
-        // if input == r
-        // restart = true
-        // if input == c
-        // sout exiting menu...
-
+    private void win() {
+        System.out.println("YOU WIN");
     }
 
-    private void gamePlay() {
-        // inventory [] artifact
-        // inventory [] items
 
+    private void gamePlay() {
+        player.setLives(3);
+        player.setInventory(null);
         map.setCurrentRoom("start");
 
         while (true) {
@@ -182,51 +169,45 @@ public class Game {
             }
 
             String[] moveArray = move.split(" ");
-            if(moveArray[0].equals("go")){
-                if(moveArray[1].equals(map.getMap(moveArray[1]))){
+            if (moveArray[0].equals("go")) {
+                if (moveArray[1].equals(map.getMap(moveArray[1]))) {
                     map.setCurrentRoom(map.getCurrentRoom());
-                }
-            }
-
-            else if (moveArray[0].equals("look")) {
-                if(moveArray[1].equals(map.getCurrentRoom())){
-                    map.roomInfo();
-                }
-                else if (moveArray[1].equals("item")){
-                    map.itemInfo();
-                }
-            }
-
-            else if (move.matches("show menu|menu")) {
-                showMenu();
-                String input = scanner.nextLine().toLowerCase();
-                if (input.matches("q|quit")) {
-                    System.out.println("Are you sure you want to QUIT?");
-                    String inputQuit = scanner.nextLine().toLowerCase();
-                    if(inputQuit.matches("y|yes")){
-                        setOver(true);
-                        break;
-                    } else {
-                        continue;
+                } else if (moveArray[0].equals("look")) {
+                    if (moveArray[1].equals(map.getCurrentRoom())) {
+                        map.roomInfo();
+                    } else if (moveArray[1].equals("item")) {
+                        map.itemInfo();
                     }
-                }
-                if (input.matches("r|restart|")) {
-                    setEndGamePlay(true);
-                    break;
-                }
-                if (input.matches("c|continue|")) {
-                    System.out.println("continuing game");
+                } else if (move.matches("show menu|menu")) {
+                    getMenu();
+                    String input = scanner.nextLine().toLowerCase();
+                    if (input.matches("q|quit")) {
+                        System.out.println("Are you sure you want to QUIT?");
+                        String inputQuit = scanner.nextLine().toLowerCase();
+                        if (inputQuit.matches("y|yes")) {
+                            setOver(true);
+                            break;
+                        } else {
+                            continue;
+                        }
+                    }
+                    if (input.matches("r|restart|")) {
+                        setEndGamePlay(true);
+                        break;
+                    }
+                    if (input.matches("c|continue|")) {
+                        System.out.println("continuing game");
 
+                    }
+                } else {
+                    System.out.println("You need to choose a proper command: go (north | south | east | west), look (room | item)");
                 }
+                // if dead => break;
+                // if win => break;
             }
-            else{
-                System.out.println("You need to choose a proper command: go (north | south | east | west), look (room | item)");
-            }
-            // if dead => break;
-            // if win => break;
+
+
         }
 
-
     }
-
 }
