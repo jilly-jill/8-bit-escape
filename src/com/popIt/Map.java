@@ -10,7 +10,8 @@ public class Map {
     JSONParser parser = new JSONParser();
 
     private String currentRoom;
-    private String direction;
+    private String items;
+
     public String getCurrentRoom() {
         return currentRoom;
     }
@@ -19,6 +20,13 @@ public class Map {
         this.currentRoom = currentRoom;
     }
 
+    public String getItems() {
+        return items;
+    }
+
+    public void setItems(String items) {
+        this.items = items;
+    }
 
     public String getMap(String direction){
         String result = "";
@@ -43,12 +51,12 @@ public class Map {
 
             }
             //if currentRoom is null then do something Todo: Work on NULL VALUES 4/29/22
-//            if(getCurrentRoom() == null){
+            if(getCurrentRoom() == null){
                 System.out.println("YOU ARE NOW IN " + getCurrentRoom());
-//                setCurrentRoom(currentR);
-//            } else {
+                setCurrentRoom(currentR);
+            } else {
                 result = getCurrentRoom();
-//            }
+            }
 
 
 
