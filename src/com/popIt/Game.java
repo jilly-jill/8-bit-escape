@@ -163,7 +163,7 @@ public class Game {
 
     private void gamePlay() {
         player.setLives(3);
-        map.setCurrentRoom("start");
+        map.setCurrentRoom("corridor11");
         player.setInventory(null);
 
         while (true) {
@@ -212,7 +212,6 @@ public class Game {
                 win();
                 setOver(true);
                 break;
-
             }
         }
     }
