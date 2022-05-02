@@ -164,7 +164,7 @@ public class Game {
 
     private void gamePlay() {
         player.setLives(3);
-        map.setCurrentRoom("corridor12");
+        map.setCurrentRoom("start");
         player.setInventory(null);
 
         while (true) {
