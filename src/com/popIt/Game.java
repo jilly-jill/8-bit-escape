@@ -23,6 +23,7 @@ public class Game {
     private Map map = new Map();
     private boolean isOver;
     private boolean endGamePlay;
+    private boolean checkWin;
 
 
     public boolean isOver() {
@@ -41,6 +42,13 @@ public class Game {
         this.endGamePlay = endGamePlay;
     }
 
+    public boolean isCheckWin() {
+        return checkWin;
+    }
+
+    public void setCheckWin(boolean checkWin) {
+        this.checkWin = checkWin;
+    }
 
     public void execute() {
         System.out.println("Executing game...");
@@ -50,35 +58,24 @@ public class Game {
                 while (!isEndGamePlay()) {
                     try {
                         gamePlay();
-
-                        // if player inventory contains 3 tokens & player is in labyrinth center
-                        // else if player lives == 0
-                        // break.
+                        checkWin();
                         if (isOver()) {
                             break;
                         }
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                     System.out.println("game is over= " + isOver());
                     System.out.println("end game play= " + isEndGamePlay());
                 }
-
-
                 if (isEndGamePlay()) {
                     setEndGamePlay(false);
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
         System.out.println("Game over");
-
-
     }
 
     public void welcome() {
@@ -125,8 +122,10 @@ public class Game {
     }
 
     private void showStatus() {
+        //show player and current room status
+        //TODO: get/set logic for items
         System.out.println("\n ===== " + player.getUsername() + "'s Current Status =====\n" +
-                "Current Room: " + map.getCurrentRoom().toUpperCase() + "\n" +
+                "Current Room: " + map.getCurrentRoom() + "\n" +
                 "Current Lives: " + player.getLives() + "\n" +
                 "Current Inventory: " + player.getInventory() + "\n" +
                 "Items in Room: map.getItems()\n" +
@@ -135,6 +134,17 @@ public class Game {
 
     }
 
+    private boolean checkWin(){
+       String currentRoom = map.getCurrentRoom();
+
+        if(currentRoom.equals("mazecenter")) {
+            checkWin = true;
+        }
+        else{
+            checkWin = false;
+        }
+        return checkWin;
+    }
 
     private void clearScreen() {
         try {
@@ -152,11 +162,10 @@ public class Game {
         System.out.println("YOU WIN");
     }
 
-
     private void gamePlay() {
         player.setLives(3);
-        player.setInventory(null);
         map.setCurrentRoom("start");
+        player.setInventory(null);
 
         while (true) {
             clearScreen();
@@ -167,7 +176,6 @@ public class Game {
                 System.out.println("enter command >");
                 move = scanner.nextLine().toLowerCase();
             }
-
             String[] moveArray = move.split(" ");
             if (moveArray[0].equals("go")) {
                 if (moveArray[1].equals(map.getMap(moveArray[1]))) {
@@ -197,17 +205,17 @@ public class Game {
                     }
                     if (input.matches("c|continue|")) {
                         System.out.println("continuing game");
-
                     }
-                } else {
-                    System.out.println("You need to choose a proper command: go (north | south | east | west), look (room | item)");
                 }
-                // if dead => break;
-                // if win => break;
             }
+            checkWin();
+            if (checkWin) {
+                win();
+                setOver(true);
+                break;
 
-
+            }
         }
-
     }
 }
+
