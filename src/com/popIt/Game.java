@@ -2,7 +2,6 @@ package com.popIt;
 
 import java.io.IOException;
 import java.util.*;
-import com.popIt.design.*;
 
 /* TODO: Resident Evil mini-game - Hallway - Walkie Talkie:
     If user gets walkie talkie, iterate through inventory once item is set

@@ -3,6 +3,7 @@ package com.popIt;
 
 import java.util.*;
 import java.io.*;
+
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
@@ -12,8 +13,8 @@ class Map {
     private String currentRoom;
     private String roomDesc;
     private String itemDesc;
-    private final String map = "resources/gson/map.json";
-    private final String zombie = "resources/gson/zombies.json";
+    private final String map = "json/map.json";
+    private final String zombie = "json/zombies.json";
     private Object obj;
     private Boolean isMiniGame = false;
     private String items;
@@ -66,7 +67,8 @@ class Map {
             //instantiate parser to read file
             // TODO 5/3 Set minigame to false after exiting zombie map and look logic for rooms and items in zombies
             if (getCurrentRoom().equals("explosionsandzombies")) {
-                setObj(parser.parse(new FileReader(zombie)));
+                InputStream inputTestJSON = getFileFromResourceAsStream(zombie);
+                setObj(parser.parse(new InputStreamReader(inputTestJSON, "UTF-8")));
                 setCurrentRoom("start");
                 setMiniGame(true);
                 }
@@ -161,4 +163,13 @@ class Map {
                 e.printStackTrace();
             }
         }
+    private static InputStream getFileFromResourceAsStream(String fileName) {
+        ClassLoader classLoader = Map.class.getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(fileName);
+        if (inputStream == null) {
+            throw new IllegalArgumentException("file not found! " + fileName);
+        } else {
+            return inputStream;
+        }
+    }
 }
