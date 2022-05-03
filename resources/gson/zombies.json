@@ -2,8 +2,7 @@
 {
   "start": {
     "north": "hall",
-    "lookroom": "Shattered windows, upended furniture and browned blood stains appear to be the new design motif. You can continue north."
-    "text": "The smell of gun-smoke and blood merge as you open your eyes and find yourself in what appears to be a massive crumbling manor. You hear gunshots in the distance and a chorus of guttural growls - growls that almost sounded human. What would you like to do?"
+    "lookroom": "Shattered window,shots in the distance and a chorus of guttural growls - growls that almost sounded human. What would you like to do?"
   },
   "hall": {
     "north": "infirmary",
