@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/8-bit-escape.iml" filepath="$PROJECT_DIR$/.idea/8-bit-escape.iml" />
+      <module fileurl="file://$PROJECT_DIR$/8-bit-escape.iml" filepath="$PROJECT_DIR$/8-bit-escape.iml" />
     </modules>
   </component>
 </project>
