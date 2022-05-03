@@ -61,6 +61,7 @@
         "text": "Your mind races as you continue to move forward. Your heart rhythmically beats as you continue to move forward - the beats calling a cadence, the only thing keeping your mind, sane. You can continue north or south."
     },
     "corridor11": {
+        "east": "explosionsandzombies",
         "west": "corridor12",
         "north": "corridor14",
         "text": "The heavy smell of iron strikes your senses. It is thick in the air. As you continue moving forward you recognize the smell as blood. You feel an uneasiness come over you. You can continue west, north, south or east."
