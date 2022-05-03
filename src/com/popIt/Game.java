@@ -23,7 +23,7 @@ public class Game {
     private Map map = new Map();
     private boolean isOver;
     private boolean endGamePlay;
-    private boolean checkWin;
+    private boolean checkEnd;
 
 
     public boolean isOver() {
@@ -42,12 +42,12 @@ public class Game {
         this.endGamePlay = endGamePlay;
     }
 
-    public boolean isCheckWin() {
-        return checkWin;
+    public boolean isCheckEnd() {
+        return checkEnd;
     }
 
-    public void setCheckWin(boolean checkWin) {
-        this.checkWin = checkWin;
+    public void setCheckEnd(boolean checkEnd) {
+        this.checkEnd = checkEnd;
     }
 
     public void execute() {
@@ -58,7 +58,6 @@ public class Game {
                 while (!isEndGamePlay()) {
                     try {
                         gamePlay();
-                        checkWin();
                         if (isOver()) {
                             break;
                         }
@@ -134,16 +133,22 @@ public class Game {
 
     }
 
-    private boolean checkWin() {
+    private boolean checkEnd() {
         String currentRoom = map.getCurrentRoom();
 
         if (currentRoom.equals("mazecenter")) {
-            checkWin = true;
-        } else {
-            checkWin = false;
+            checkEnd = true;
+            Ascii.win();
+            win();
+        }else if(player.getLives() < 1){
+            checkEnd = true;
+            lose();
+        }else {
+            checkEnd = false;
         }
-        return checkWin;
+        return checkEnd;
     }
+
 
     private void clearScreen() {
         try {
@@ -159,6 +164,9 @@ public class Game {
 
     private void win() {
         System.out.println("YOU WIN");
+    }
+    private void lose(){
+        System.out.println("YOU LOSE");
     }
 
     private void gamePlay() {
@@ -207,9 +215,8 @@ public class Game {
                     System.out.println("continuing game");
                 }
             }
-            checkWin();
-            if (checkWin) {
-                win();
+            checkEnd();
+            if (checkEnd) {
                 setOver(true);
                 break;
             }
