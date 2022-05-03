@@ -1,4 +1,4 @@
-package GSonResources;
+package gsonresources;
 
 import com.google.gson.*;
 import com.popIt.*;
@@ -9,13 +9,14 @@ import java.util.*;
 public class TestGSonResources {
 
     public static void main(String[] args) {
-        Game game = new Game();
-        game.execute();
+//        Game game = new Game();
+//        game.execute();
+        printTestDataGSON();
 
     }
     public static void printTestDataGSON() {
         Gson gson = new Gson();
-        String s = "gson/test.json";
+        String s = "gson/map.json";
         InputStream inputTestJSON = getFileFromResourceAsStream(s);
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputTestJSON, "UTF-8"))){
             Map<String, Map<String, Object>> map = gson.fromJson(reader, Map.class);

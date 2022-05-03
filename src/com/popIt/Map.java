@@ -12,11 +12,12 @@ class Map {
     private String currentRoom;
     private String roomDesc;
     private String itemDesc;
-    private final String map = "resources/gson/map.json";
-    private final String zombie = "resources/gson/zombies.json";
+    private final String map = "json/map.json";
+    private final String zombie = "json/zombies.json";
     private Object obj;
     private Boolean isMiniGame = false;
     private String items;
+    private boolean foundRoom = false;
 
     // Getters and Setters
     public String getCurrentRoom() {
@@ -57,43 +58,76 @@ class Map {
         this.items = items;
     }
 
+    public boolean isFoundRoom() {
+        return foundRoom;
+    }
+
+    public void setFoundRoom(boolean foundRoom) {
+        this.foundRoom = foundRoom;
+    }
+
     public String getMap(String direction){
         String result = "";
+        String previousRoom = "";
         JSONObject jsonObject;
-        try {
-            //instantiate parser to read file
-            // TODO 5/3 Set minigame to false after exiting zombie map and look logic for rooms and items in zombies
-            if(getCurrentRoom().equals("explosionsandzombies")){
-                setObj(parser.parse(new FileReader(zombie)));
-                setCurrentRoom("start");
-                setMiniGame(true);
-            }
-            if(getMiniGame().equals(true)){
-                jsonObject = (JSONObject)getObj();
-            }
-            else {
-                setObj(parser.parse(new FileReader(map)));
-                jsonObject = (JSONObject)getObj();
-            }
-            System.out.println("YOU WERE IN " + getCurrentRoom());
-            // move jsonObject into a hashmap (to use built-in methods to move data)
-            HashMap<String,String> roomMap = (HashMap<String,String>) jsonObject.get(getCurrentRoom());
-            // iterate through jsonObject's key
-            for(Object room : jsonObject.keySet()){
-                // if the room key equals to the currentRoom
-                if(room.toString().equals(getCurrentRoom())){
-                    // set that room key value of the key (direction) to the currentRoom EX: if "north" in "start" then assign "north"'s value to currentRoom
-                    setCurrentRoom(roomMap.get(direction));
-                    break;
-                }
-            }
-            System.out.println("YOU ARE NOW IN " + getCurrentRoom());
-            result = getCurrentRoom();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+        while(true) {
+            try {
+                //instantiate parser to read file
+                // TODO 5/3 Set minigame to false after exiting zombie map and look logic for rooms and items in zombies
+                if (getCurrentRoom().equals("explosionsandzombies")) {
+                    InputStream inputTestJSON = getFileFromResourceAsStream(zombie);
+                    setObj(parser.parse(new InputStreamReader(inputTestJSON, "UTF-8")));
 
+                    setCurrentRoom("start");
+                    setMiniGame(true);
+                }
+                if (getMiniGame().equals(true)) {
+                    jsonObject = (JSONObject) getObj();
+                } else {
+
+                    InputStream inputTestJSON = getFileFromResourceAsStream(map);
+                    setObj(parser.parse(new InputStreamReader(inputTestJSON, "UTF-8")));
+
+                    jsonObject = (JSONObject) getObj();
+
+                }
+                System.out.println("YOU WERE IN " + getCurrentRoom());
+                // move jsonObject into a hashmap (to use built-in methods to move data)
+                HashMap<String, String> roomMap = (HashMap<String, String>) jsonObject.get(getCurrentRoom());
+                // iterate through jsonObject's key
+                for (Object room : jsonObject.keySet()) {
+                    // if current is start and key not in then set currentRoom to start
+                    // if the room key equals to the currentRoom
+                    if (room.toString().equals(getCurrentRoom())) {
+                        // set that room key value of the key (direction) to the currentRoom EX: if "north" in "start" then assign "north"'s value to currentRoom
+                        setCurrentRoom(roomMap.get(direction));
+                        System.out.println("YOU ARE NOW IN " + getCurrentRoom());
+                        // set current room as result
+                        result = getCurrentRoom();
+                        break;
+                    } else {
+                        // set current room as previous room
+                        previousRoom = getCurrentRoom();
+                    }
+                }
+
+                // currentRoom is start and invalid direction then set current room back to start
+                if (Objects.equals(getCurrentRoom(), "")) {
+                    setCurrentRoom("start");
+                    previousRoom = getCurrentRoom();
+                // if current room is null then set previous room as current
+                } else if (getCurrentRoom() == null){
+                    System.out.println("Please enter valid room");
+                    setCurrentRoom(previousRoom);
+                }
+                break;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         return result;
+
     }
 
     public void roomInfo(){
@@ -163,4 +197,17 @@ class Map {
             e.printStackTrace();
         }
     }
+
+
+    private static InputStream getFileFromResourceAsStream(String fileName) {
+        ClassLoader classLoader = Map.class.getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(fileName);
+        if (inputStream == null) {
+            throw new IllegalArgumentException("file not found! " + fileName);
+        } else {
+            return inputStream;
+        }
+    }
+
 }
+

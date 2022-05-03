@@ -207,12 +207,12 @@ public class Game {
                     System.out.println("continuing game");
                 }
             }
-            checkWin();
-            if (checkWin) {
-                win();
-                setOver(true);
-                break;
-            }
+//            checkWin();
+//            if (checkWin) {
+//                win();
+//                setOver(true);
+//                break;
+//            }
         }
     }
 }
