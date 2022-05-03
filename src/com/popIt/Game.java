@@ -219,7 +219,6 @@ public class Game {
             if (checkEnd) {
                 setOver(true);
                 break;
-
             }
         }
     }
