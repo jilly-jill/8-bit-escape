@@ -1,0 +1,141 @@
+{
+    "start": {
+        "north": "corridor1"
+    },
+    "corridor1": {
+        "west": "corridor2",
+        "east": "corridor3",
+        "lookroom": "The walls have an iridescence to them but no visible source of light. It is dim but enough to light your immediate path. You can continue east or west",
+        "text": "You step into a corridor. The labyrinth walls tower upwards, infinitely. The enclave you were just standing is now closed as a wall emerges."
+    },
+    "corridor2": {
+        "east": "corridor1",
+        "north": "corridor5",
+        "west": "trap1",
+	  "lookroom": "The walls have an iridescence to them but no visible source of light. It is dim but enough to light your immediate path. You can continue west or east",
+        "text": "You continue to walk through the eerily quiet halls. Attempting to find some clue regarding the tokens and their location."
+    },
+    "corridor3": {
+        "west": "corridor1",
+        "north": "corridor4",
+        "east": "trap2",
+ 	  "lookroom": "The walls have an iridescence to them but no visible source of light. It is dim but enough to light your immediate path. You can continue north, east or west",
+        "text": "You notice the only sound you hear is the echoing of your steps. Did you hear that? It sounded like a faint scream. The hair on your neck begins to rise."
+    },
+    "corridor4": {
+        "west": "pillage",
+        "north": "dario",
+        "south": "corridor3",
+        "lookroom": "Along the walls there is a single shadow, faintly dancing in rhythm to the screams, on the wall. You can continue west, north, or south",
+        "text": "As you move through the corridor, the scream becomes louder. It pierces the air for a few seconds and then fades away before returning."
+    },
+    "corridor5": {
+        "north": "corridor6",
+        "east": "dario",
+        "south": "corridor4",
+	  "lookroom": "You see torch light approaching. You can continue north, east or south.",
+        "text": "You continue forward. Your footsteps are the only sound you can hear."
+    },
+    "corridor6": {
+        "north": "trap3",
+        "east": "corridor7",
+        "south": "corridor5",
+	  "lookroom": "The walls have an iridescence to them but no visible source of light. It is dim but enough to light your immediate path. You can continue north, east, or south.",
+        "text": "You continue winding through what feels like an endless maze of corridors."
+    },
+    "corridor7": {
+        "west": "corridor6",
+        "north": "corridor8",
+        "east": "dario",
+        "south": "pillage",
+	  "lookroom": "You see a shadow faintly creep across the wall. Flickering as if a fire was near. You can continue north, south, east or west.",
+        "text": "You can hear a faint scream in the distance. You all of a sudden feel a chill creep down your spine."
+    },
+    "corridor8": {
+        "north": "corridor10",
+        "east": "corridor9",
+        "south": "corridor7",
+	  "lookroom": "The faint glimmer of the walls continue to provide the faintest path forward. You can continue north, east or south.",
+        "text": "You stop to let your eyes adjust and to take a breath."
+    },
+    "corridor9": {
+        "west": "corridor8",
+        "north": "trap4",
+	  "lookroom": "The walls have an iridescence to them but no visible source of light. It is dim but enough to light your immediate path. You can continue north or return west.",
+        "text": "You turn another corner to just see more corridors and no end."
+    },
+    "corridor10": {
+        "north": "corridor11",
+        "south": "corridor9",
+ 	  "lookroom": "The walls have an iridescence to them but no visible source of light. It is dim but enough to light your immediate path. You can continue north or south.",
+        "text": "Your mind races as you continue to move forward. Your heart rhythmically beats as you continue to move forward - the beats calling a cadence, the only thing keeping your mind, sane."
+    },
+    "corridor11": {
+        "east": "explosionsandzombies",
+        "west": "corridor12",
+        "north": "corridor14",
+	  "lookroom": "What appears to be smoke slowly begins wafting around you. You can continue west, north, south or east.",
+        "text": "The heavy smell of iron strikes your senses. It is thick in the air. As you continue moving forward you recognize the smell as blood. You feel an uneasiness come over you."
+    },
+    "corridor12": {
+        "north": "mazecenter",
+        "east": "corridor11",
+	  "lookroom": "That walls are beginning to darken. You can continue north or east.",
+        "text": "The walls of the labyrinth feel like they're winding tighter. Coiling like a snake corner, over corner."
+    },
+    "corridor13": {
+        "west": "corridor14",
+        "south": "explosionsandzombies",
+	  "lookroom": "Plumes of smoke obstruct your view. You can continue west or south.",
+        "text": "You are jarred by the sudden thickness of gun-smoke in the air. You choke trying to see if you can find the source."
+    },
+    "corridor14": {
+        "west": "mazecenter",
+        "east": "corridor13",
+        "south": "corridor11",
+	  "lookroom": "The path continues to darken as the walls appear to tighten around you. You can continue west, east, or south.",
+        "text": "It feels like you are winding closer towards the center. You wrap around another corner."
+    },
+    "trap1": {
+        "east": "corridor2",
+	  "lookroom": "A ghost suddenly appears, knocking you off of your feet. No way forward. You can only return east.",
+        "text": "You hear the voice of the figure from the mall in your ear 'Looks like a dead end, try again!' Their voice trails off with a laugh."
+    },
+    "trap2": {
+        "west": "corridor3",
+	  "lookroom": "A ghost suddenly appears, knocking you off of your feet. No way forward. You can only return west.",
+        "text": "'You're going the wrong way', the voice laughs."
+    },
+    "trap3": {
+        "south": "corridor6",
+	  "lookroom": "A ghost suddenly appears, knocking you off of your feet. No way forward. You can only return south.",
+        "text": "On the wall you see various wrong way and dead end signs. You hear laughter. You can only return south."
+    },
+    "trap4": {
+        "south": "corridor9",
+	  "lookroom": "A ghost suddenly appears, knocking you off of your feet. No way forward. You can only return south.",
+        "text": "The corridor is pitch black, even the walls have stopped emitting light. All of the sudden a loud shout cracks across the quiet hallway. 'TRY AGAIN'. You can only return south."
+    },
+    "pillage": {
+        "west": "corridor5",
+        "north": "corridor7",
+        "east": "corridor4",
+        "text": "CAVE PILLAGER INTRO"
+    },
+    "dario": {
+        "west": "corridor7",
+        "south": "corridor4",
+        "text": "DARIO INTRO"
+    },
+    "explosionsandzombies": {
+        "west": "corridor11",
+        "north": "corridor13",
+        "text": "EXPLOSIONS AND ZOMBIES INTRO"
+    },
+    "mazecenter": {
+        "east": "corridor14",
+        "south": "corridor12",
+        "text": "MAZE CENTER TEXT"
+    }
+
+}
