@@ -22,8 +22,9 @@ class Player {
         return lives;
     }
 
-    public void setLives(int lives) {
+    public int setLives(int lives) {
         this.lives = lives;
+        return lives;
     }
 
     public List<String> getInventory() {

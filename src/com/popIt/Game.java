@@ -88,12 +88,11 @@ public class Game {
     }
 
     private void getSplashTheme() {
-        //
-//                        Ascii.splashScreen();
+        Ascii.splashScreen();
     }
 
     private void getOpening() {
-//                        Ascii.opening();
+        Ascii.opening();
     }
 
     private void getUsername() {
@@ -116,7 +115,7 @@ public class Game {
         }
     }
 
-    private void getMenu() {
+    public void getMenu() {
         Ascii.commands();
     }
 
@@ -135,14 +134,12 @@ public class Game {
 
     private boolean checkEnd() {
         String currentRoom = map.getCurrentRoom();
-
         if (currentRoom.equals("mazecenter")) {
             checkEnd = true;
             Ascii.win();
-            win();
         }else if(player.getLives() < 1){
             checkEnd = true;
-            lose();
+            Ascii.lose();
         }else {
             checkEnd = false;
         }
@@ -162,15 +159,39 @@ public class Game {
         }
     }
 
-    private void win() {
-        System.out.println("YOU WIN");
-    }
-    private void lose(){
-        System.out.println("YOU LOSE");
+    /*JS - 05/03 - Randomize function generates number 1-8,
+    if number is >= 1 an ascii image of a ghost appears and player lives are set- 1
+    player.getLives() is returned with current value
+    Code checked, sout remains if you want to check generated digits and verify logic works*/
+    private int randomize() {
+        double digit = Math.random() * 8;
+        System.out.println(digit);
+        if(digit <= 2 ){
+            Ascii.ghost();
+            player.setLives(player.getLives() -1);
+            return player.getLives();
+        }
+        return player.getLives();
     }
 
+    /*JS - 05/03 - if the current room contains "trap" - ascii.ghost generates ghost image and player loses 1 life
+     */
+    private int trap() {
+        try {
+            if (map.getCurrentRoom().contains("trap")) {
+                Ascii.ghost();
+                player.setLives(player.getLives() - 1);
+            }
+            return player.getLives();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return player.getLives();
+    }
+
+
     private void gamePlay() {
-        player.setLives(3);
+        player.setLives(5);
         map.setCurrentRoom("start");
         player.setInventory(null);
 
@@ -214,7 +235,11 @@ public class Game {
                 if (input.matches("c|continue|")) {
                     System.out.println("continuing game");
                 }
+
             }
+            trap();
+            randomize();
+            System.out.println();
             checkEnd();
             if (checkEnd) {
                 setOver(true);
