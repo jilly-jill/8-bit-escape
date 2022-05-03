@@ -72,6 +72,16 @@ import java.io.*;
             String pathName = "resources/gson/win.txt";
             generate(pathName);
         }
+
+        public static void lose() {
+            String pathName = "resources/gson/lose.txt";
+            generate(pathName);
+        }
+
+        public static void ghost() {
+            String pathName = "resources/gson/ghost.txt";
+            generate(pathName);
+        }
     }
 
 
