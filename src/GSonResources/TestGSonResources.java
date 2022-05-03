@@ -15,7 +15,7 @@ public class TestGSonResources {
     }
     public static void printTestDataGSON() {
         Gson gson = new Gson();
-        String s = "GSon/test.json";
+        String s = "gson/test.json";
         InputStream inputTestJSON = getFileFromResourceAsStream(s);
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputTestJSON, "UTF-8"))){
             Map<String, Map<String, Object>> map = gson.fromJson(reader, Map.class);

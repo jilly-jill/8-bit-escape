@@ -37,7 +37,7 @@ class Map {
         String result = "";
         try {
             //instantiate parser to read file
-            Object obj = parser.parse(new FileReader("data/map.json"));
+            Object obj = parser.parse(new FileReader("resources/gson/map.json"));
             JSONObject jsonObject = (JSONObject)obj;
 
             System.out.println("YOU WERE IN " + getCurrentRoom());
@@ -66,7 +66,7 @@ class Map {
     public void roomInfo(){
         try {
             //instantiate parser to read file
-            Object obj = parser.parse(new FileReader("data/map.json"));
+            Object obj = parser.parse(new FileReader("resources/gson/map.json"));
             JSONObject jsonObject = (JSONObject)obj;
             // move jsonObject into a hashmap (to use built-in methods to move data)
             HashMap<String,String> roomMap = (HashMap<String,String>) jsonObject.get(getCurrentRoom());
@@ -89,7 +89,7 @@ class Map {
     public void itemInfo(){
         try {
             //instantiate parser to read file
-            Object obj = parser.parse(new FileReader("data/map.json"));
+            Object obj = parser.parse(new FileReader("resources/gson/map.json"));
             JSONObject jsonObject = (JSONObject)obj;
             // move jsonObject into a hashmap (to use built-in methods to move data)
             HashMap<String,String> roomMap = (HashMap<String,String>) jsonObject.get(getCurrentRoom());
