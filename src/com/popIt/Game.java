@@ -81,8 +81,13 @@ public class Game {
 
 
         getSplashTheme();
+        System.out.println("\n" + "\n");
         getOpening();
+        System.out.println("\n");
+        getOpeningText();
+        System.out.println("\n" + "\n" + "\n");
         getUsername();
+        System.out.println("\n" + "\n");
         getMenu();
 
     }
@@ -95,10 +100,15 @@ public class Game {
         Ascii.opening();
     }
 
+    private void getOpeningText() {
+        Ascii.openText();
+    }
+
     private void getUsername() {
         try {
             boolean validInput = false;
-            System.out.print("Please enter your name: ");
+            System.out.print("The console of the wall has a blinking cursor.\n" + "A message begins to scroll across the screen...\n" +
+                    "Please enter your name:\n " + "> ");
             while (!validInput) {
                 String username = scanner.nextLine();
                 if (username.matches("[a-zA-Z]{2,15}")) {
@@ -239,7 +249,6 @@ public class Game {
             }
             trap();
             randomize();
-            System.out.println();
             checkEnd();
             if (checkEnd) {
                 setOver(true);

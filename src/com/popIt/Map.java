@@ -1,13 +1,11 @@
 package com.popIt;
 
-
 import java.util.*;
 import java.io.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
 class Map {
-    // Global Variables
     JSONParser parser = new JSONParser();
     private String currentRoom;
     private String roomDesc;
@@ -87,9 +85,10 @@ class Map {
                         setCurrentRoom(roomMap.get(direction));
                         break;
                     }
+                }
                     System.out.println("YOU ARE NOW IN " + getCurrentRoom());
                     result = getCurrentRoom();
-                }
+
         }catch(Exception e){
                 e.printStackTrace();
             }
@@ -161,4 +160,4 @@ class Map {
                 e.printStackTrace();
             }
         }
-}
+    }
