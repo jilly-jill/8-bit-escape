@@ -58,6 +58,15 @@ import java.io.*;
 //                e.printStackTrace();
         }
 
+        public static void openText() {
+            String pathName = "resources/gson/opentext.txt";
+            generate(pathName);
+//            try {
+////                Thread.sleep(10000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+        }
+
         public static void commands() {
             String pathName = "resources/gson/directions.txt";
             generate(pathName);
