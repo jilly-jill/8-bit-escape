@@ -118,4 +118,9 @@
         "south": "corridor12",
         "text": "MAZE CENTER TEXT"
     }
+<<<<<<< HEAD:out/production/8-bit-escape/map.json
 }
+=======
+
+}
+>>>>>>> Dev:resources/gson/map.json
