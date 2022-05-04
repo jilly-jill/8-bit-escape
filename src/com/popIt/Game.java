@@ -21,6 +21,7 @@ public class Game {
     private final Player player = new Player();
     private final Scanner scanner = new Scanner(System.in);
     private Map map = new Map();
+    private Ascii ascii = new Ascii();
     private boolean isOver;
     private boolean endGamePlay;
     private boolean checkWin;
@@ -58,7 +59,6 @@ public class Game {
                 while (!isEndGamePlay()) {
                     try {
                         gamePlay();
-                        checkWin();
                         if (isOver()) {
                             break;
                         }
@@ -89,12 +89,11 @@ public class Game {
     }
 
     private void getSplashTheme() {
-        //
-//                        Ascii.splashScreen();
+        ascii.getText("json/splash.txt");
     }
 
     private void getOpening() {
-//                        Ascii.opening();
+        ascii.getText("json/opening.txt");
     }
 
     private void getUsername() {
@@ -118,7 +117,7 @@ public class Game {
     }
 
     private void getMenu() {
-        Ascii.commands();
+        ascii.getText("json/directions.txt");
     }
 
     private void showStatus() {
@@ -128,22 +127,24 @@ public class Game {
                 "Current Room: " + map.getCurrentRoom() + "\n" +
                 "Current Lives: " + player.getLives() + "\n" +
                 "Current Inventory: " + player.getInventory() + "\n" +
-                "Items in Room: map.getItems()\n" +
-                "You can Move: map.availableDirections()\n" +
                 "=====\n");
 
     }
 
     private boolean checkWin() {
         String currentRoom = map.getCurrentRoom();
-
         if (currentRoom.equals("mazecenter")) {
             checkWin = true;
-        } else {
+            ascii.getText("json/win.txt");;
+        }else if(player.getLives() < 1){
+            checkWin = true;
+            ascii.getText("json/ghost.txt");;
+        }else {
             checkWin = false;
         }
         return checkWin;
     }
+
 
     private void clearScreen() {
         try {
@@ -157,12 +158,38 @@ public class Game {
         }
     }
 
-    private void win() {
-        System.out.println("YOU WIN");
+    /*JS - 05/03 - Randomize function generates number 1-8,
+    if number is >= 1 an ascii image of a ghost appears and player lives are set- 1
+    player.getLives() is returned with current value
+    Code checked, sout remains if you want to check generated digits and verify logic works*/
+    private int randomize() {
+        double digit = Math.random() * 8;
+        if(digit <= 2 ){
+            ascii.getText("json/ghost.txt");
+            player.setLives(player.getLives() -1);
+            return player.getLives();
+        }
+        return player.getLives();
     }
 
+    /*JS - 05/03 - if the current room contains "trap" - ascii.ghost generates ghost image and player loses 1 life
+     */
+    private int trap() {
+        try {
+            if (map.getCurrentRoom().contains("trap")) {
+                ascii.getText("json/ghost.txt");
+                player.setLives(player.getLives() - 1);
+            }
+            return player.getLives();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return player.getLives();
+    }
+
+
     private void gamePlay() {
-        player.setLives(3);
+        player.setLives(5);
         map.setCurrentRoom("start");
         player.setInventory(null);
 
@@ -177,13 +204,14 @@ public class Game {
             }
             String[] moveArray = move.split(" ");
             if (moveArray[0].equals("go")) {
-                if (moveArray[1].equals(map.getMap(moveArray[1]))) {
+                if (moveArray[1].equals(map.getMap(moveArray[1])))
                     map.setCurrentRoom(map.getCurrentRoom());
-                }
-            } else if (moveArray[0].equals("look")) {
+                //map.getRoomInfo();
+            }
+            else if (moveArray[0].equals("look")) {
                 if (moveArray[1].equals(map.getCurrentRoom())) {
                     map.roomInfo();
-                } else if (moveArray[1].equals("item")) {
+                } else if (moveArray[1].equals("items")) {
                     map.itemInfo();
                 }
             } else if (move.matches("show menu|menu")) {
@@ -207,14 +235,16 @@ public class Game {
                     System.out.println("continuing game");
                 }
             }
-//            checkWin();
-//            if (checkWin) {
-//                win();
-//                setOver(true);
-//                break;
-//            }
+            else {
+                System.out.println("Please select a valid command");
+            }
+            trap();
+            randomize();
+            checkWin();
+            if (checkWin) {
+                setOver(true);
+                break;
+            }
         }
     }
 }
-
-
