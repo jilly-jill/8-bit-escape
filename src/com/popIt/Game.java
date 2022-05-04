@@ -20,7 +20,7 @@ import com.popIt.design.*;
 public class Game {
     private final Player player = new Player();
     private final Scanner scanner = new Scanner(System.in);
-    private Map map = new Map();
+    private GameMap gameMap = new GameMap();
     private Ascii ascii = new Ascii();
     private boolean isOver;
     private boolean endGamePlay;
@@ -124,7 +124,7 @@ public class Game {
         //show player and current room status
         //TODO: get/set logic for items
         System.out.println("\n ===== " + player.getUsername() + "'s Current Status =====\n" +
-                "Current Room: " + map.getCurrentRoom() + "\n" +
+                "Current Room: " + gameMap.getCurrentRoom() + "\n" +
                 "Current Lives: " + player.getLives() + "\n" +
                 "Current Inventory: " + player.getInventory() + "\n" +
                 "=====\n");
@@ -132,7 +132,7 @@ public class Game {
     }
 
     private boolean checkWin() {
-        String currentRoom = map.getCurrentRoom();
+        String currentRoom = gameMap.getCurrentRoom();
         if (currentRoom.equals("mazecenter")) {
             checkWin = true;
             ascii.getText("json/win.txt");;
@@ -176,7 +176,7 @@ public class Game {
      */
     private int trap() {
         try {
-            if (map.getCurrentRoom().contains("trap")) {
+            if (gameMap.getCurrentRoom().contains("trap")) {
                 ascii.getText("json/ghost.txt");
                 player.setLives(player.getLives() - 1);
             }
@@ -190,7 +190,7 @@ public class Game {
 
     private void gamePlay() {
         player.setLives(5);
-        map.setCurrentRoom("start");
+        gameMap.setCurrentRoom("start");
         player.setInventory(null);
 
         while (true) {
@@ -204,15 +204,15 @@ public class Game {
             }
             String[] moveArray = move.split(" ");
             if (moveArray[0].equals("go")) {
-                if (moveArray[1].equals(map.getMap(moveArray[1])))
-                    map.setCurrentRoom(map.getCurrentRoom());
+                if (moveArray[1].equals(gameMap.getMap(moveArray[1])))
+                    gameMap.setCurrentRoom(gameMap.getCurrentRoom());
                 //map.getRoomInfo();
             }
             else if (moveArray[0].equals("look")) {
-                if (moveArray[1].equals(map.getCurrentRoom())) {
-                    map.roomInfo();
+                if (moveArray[1].equals(gameMap.getCurrentRoom())) {
+                    gameMap.roomInfo();
                 } else if (moveArray[1].equals("items")) {
-                    map.itemInfo();
+                    gameMap.itemInfo();
                 }
             } else if (move.matches("show menu|menu")) {
                 getMenu();

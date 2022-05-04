@@ -1,18 +1,19 @@
 package com.popIt;
 
-
 import java.util.*;
 import java.io.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
-class Map {
+class GameMap {
     // Global Variables
-    JSONParser parser = new JSONParser();
+    private JSONParser parser = new JSONParser();
+    private ReadFile readFile = new ReadFile();
+    private Player player = new Player();
     private String currentRoom;
     private String roomDesc;
     private String itemDesc;
-    private final String map = "json/map.json";
+    private final String mainMap = "json/map.json";
     private final String zombie = "json/zombies.json";
     private String itemDescOne;
     private String itemDescTwo;
@@ -20,7 +21,10 @@ class Map {
     private Object obj;
     private Boolean isMiniGame = false;
     private String items;
-    Player player = new Player();
+    private final int timer = 7000;
+    private JSONObject jsonObject;
+
+
 
     // Getters and Setters
     public String getCurrentRoom() {
@@ -69,37 +73,57 @@ class Map {
 
     public void setItems(String items) { this.items = items; }
 
+    public JSONObject getJsonObject() {
+        return jsonObject;
+    }
+
+    public void setJsonObject(JSONObject jsonObject) {
+        this.jsonObject = jsonObject;
+    }
+    //business methods
+
+    public int getTimer() {
+        return timer;
+    }
+
+    // reads json file according to the room the player is in
+    private JSONObject createJson() throws IOException, ParseException {
+
+        InputStream inputTestJSON;
+        // if current room is zombies then read zombie.json
+        if (getCurrentRoom().equals("explosionsandzombies")) {
+            inputTestJSON = readFile.getFileFromResourceAsStream(zombie, GameMap.class);
+            setObj(parser.parse(new InputStreamReader(inputTestJSON, "UTF-8")));
+
+            setCurrentRoom("start");
+            setMiniGame(true);
+        }
+        if (getMiniGame().equals(true)) {
+            setJsonObject((JSONObject) getObj());
+        } else {
+        // get map.json
+            inputTestJSON = readFile.getFileFromResourceAsStream(mainMap, GameMap.class);
+            setObj(parser.parse(new InputStreamReader(inputTestJSON, "UTF-8")));
+
+            setJsonObject((JSONObject) getObj());
+
+        }
+        return getJsonObject();
+    }
 
     public String getMap(String direction){
         String result = "";
         String previousRoom = "";
-        JSONObject jsonObject;
+
         while(true) {
             try {
-                //instantiate parser to read file
-                // TODO 5/3 Set minigame to false after exiting zombie map and look logic for rooms and items in zombies
-                if (getCurrentRoom().equals("explosionsandzombies")) {
-                    InputStream inputTestJSON = getFileFromResourceAsStream(zombie);
-                    setObj(parser.parse(new InputStreamReader(inputTestJSON, "UTF-8")));
-
-                    setCurrentRoom("start");
-                    setMiniGame(true);
-                }
-                if (getMiniGame().equals(true)) {
-                    jsonObject = (JSONObject) getObj();
-                } else {
-
-                    InputStream inputTestJSON = getFileFromResourceAsStream(map);
-                    setObj(parser.parse(new InputStreamReader(inputTestJSON, "UTF-8")));
-
-                    jsonObject = (JSONObject) getObj();
-
-                }
+                // createJson object
+                setJsonObject((JSONObject) createJson());
                 System.out.println("YOU WERE IN " + getCurrentRoom());
                 // move jsonObject into a hashmap (to use built-in methods to move data)
-                HashMap<String, String> roomMap = (HashMap<String, String>) jsonObject.get(getCurrentRoom());
+                HashMap<String, String> roomMap = (HashMap<String, String>) getJsonObject().get(getCurrentRoom());
                 // iterate through jsonObject's key
-                for (Object room : jsonObject.keySet()) {
+                for (Object room : getJsonObject().keySet()) {
                     // if current is start and key not in then set currentRoom to start
                     // if the room key equals to the currentRoom
                     if (room.toString().equals(getCurrentRoom())) {
@@ -126,36 +150,26 @@ class Map {
                     System.out.println("Can't go that way...");
                     setCurrentRoom(previousRoom);
                 }
+
                 break;
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+
         return result;
 
     }
 
     public void roomInfo () {
-        JSONObject jsonObject;
+
         try {
-            //instantiate parser to read file
-            // TODO 5/3 Set minigame to false after exiting zombie map and look logic for rooms and items in zombies
-            if (getCurrentRoom().equals("explosionsandzombies")) {
-                setObj(parser.parse(new FileReader(zombie)));
-                setCurrentRoom("start");
-                setMiniGame(true);
-            }
-            if (getMiniGame().equals(true)) {
-                jsonObject = (JSONObject) getObj();
-            } else{
-                setObj(parser.parse(new FileReader(map)));
-                jsonObject = (JSONObject) getObj();
-            }
+            setJsonObject((JSONObject) createJson());
             // move jsonObject into a hashmap (to use built-in methods to move data)
-            HashMap<String, String> roomMap = (HashMap<String, String>) jsonObject.get(getCurrentRoom());
+            HashMap<String, String> roomMap = (HashMap<String, String>) getJsonObject().get(getCurrentRoom());
             // iterate through jsonObject's key
-            for (Object room : jsonObject.keySet()) {
+            for (Object room : getJsonObject().keySet()) {
                 // if the room key equals to the currentRoom
                 if (room.toString().equals(getCurrentRoom())) {
                     // Setting the room text value to room description
@@ -164,7 +178,7 @@ class Map {
                 }
             }
             System.out.println(getRoomDesc());
-            Thread.sleep(8000);
+            Thread.sleep(getTimer());
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -173,58 +187,46 @@ class Map {
 
 
     public void itemInfo () {
-        JSONObject jsonObject;
         setItemDesc(" ");
         setItemDescOne(" ");
         setItemDescTwo(" ");
         setItemList(" ");
         try {
-            //instantiate parser to read file
-            if (getCurrentRoom().equals("explosionsandzombies")) {
-                setObj(parser.parse(new FileReader(zombie)));
-                setCurrentRoom("start");
-                setMiniGame(true);
-            }
-            if (getMiniGame().equals(true)) {
-                jsonObject = (JSONObject) getObj();
-            } else{
-                setObj(parser.parse(new FileReader(map)));
-                jsonObject = (JSONObject) getObj();
-            }
-            System.out.println("YOU WERE IN " + getCurrentRoom());
+            // create jsonObject
+            setJsonObject((JSONObject) createJson());
             // move jsonObject into a hashmap (to use built-in methods to move data)
-            HashMap<String, String> roomMap = (HashMap<String, String>) jsonObject.get(getCurrentRoom());
+            HashMap<String, String> roomMap = (HashMap<String, String>) getJsonObject().get(getCurrentRoom());
             // iterate through jsonObject's key
-            for (Object room : jsonObject.keySet()) {
+            for (Object room : getJsonObject().keySet()) {
                 // if the room key equals to the currentRoom
                 if (room.toString().equals(getCurrentRoom())) {
-                    //if the key value is equal to
-                    if (roomMap.get("lookitem") != null){
-                        setItemDesc(roomMap.get("lookitem"));
+                    if (roomMap.get("items") != null) {
+                        if (roomMap.get("items") != null) {
+                            setItemList(roomMap.get("items"));
+                        }
+                        if (roomMap.get("lookitem") != null) {
+                            setItemDesc(roomMap.get("lookitem"));
+                        }
+                        if (roomMap.get("lookitemone") != null) {
+                            setItemDescOne(roomMap.get("lookitemone"));
+                        }
+                        if (roomMap.get("lookitemtwo") != null)
+                            setItemDescTwo(roomMap.get("lookitemtwo"));
+                        break;
                     }
-                    if (roomMap.get("lookitemone") != null){
-                        setItemDescOne(roomMap.get("lookitemone"));
+                    else{
+                        System.out.println("There are no items in here!");
                     }
-                    if (roomMap.get("lookitemtwo") != null)
-                        setItemDescTwo(roomMap.get("lookitemtwo"));
-                    break;
                 }
             }
-            System.out.println(getItemDesc() + "\n" +
+            System.out.println(getItemList() + "\n" +
+                    getItemDesc() + "\n" +
                     getItemDescOne() + "\n" +
                     getItemDescTwo());
-            Thread.sleep(10000);
+            Thread.sleep(getTimer());
         }catch(Exception e){
             e.printStackTrace();
         }
     }
-    private static InputStream getFileFromResourceAsStream(String fileName) {
-        ClassLoader classLoader = Map.class.getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(fileName);
-        if (inputStream == null) {
-            throw new IllegalArgumentException("file not found! " + fileName);
-        } else {
-            return inputStream;
-        }
-    }
+
 }

@@ -1,8 +1,11 @@
 package com.popIt.design;
 
 import java.io.*;
+import com.popIt.*;
 
 public class Ascii {
+    ReadFile readFile = new ReadFile();
+
     private static Boolean isPreviousLineString = false;
 
     public static Boolean getIsPreviousLineString() {
@@ -19,7 +22,7 @@ public class Ascii {
         {
             try {
 
-                InputStream inputTestFile = getFileFromResourceAsStream(pathName);
+                InputStream inputTestFile = readFile.getFileFromResourceAsStream(pathName, Ascii.class);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inputTestFile, "UTF-8"));
 
                 String check;
@@ -49,22 +52,10 @@ public class Ascii {
 
     }
 
-
     public void getText(String s){
         generate(s);
     }
 
-
-    // second time using this method => change to class and call method here.
-    private static InputStream getFileFromResourceAsStream(String fileName) {
-        ClassLoader classLoader = Ascii.class.getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(fileName);
-        if (inputStream == null) {
-            throw new IllegalArgumentException("file not found! " + fileName);
-        } else {
-            return inputStream;
-        }
-    }
 }
 
 
