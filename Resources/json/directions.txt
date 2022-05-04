@@ -15,7 +15,7 @@
   |	    |	  							                                 |	     |
   |	    |  To Interact with a Character: ENGAGE [character]	             |	     |
   |	    |	 								                             |       |
-  |	    |  To Get Room or Item Details: LOOK ["room name" | items]	             |       |
+  |	    |  To Get Room or Item Details: LOOK [room | item]	             |       |
   |	    |	 				  				                             |       |
   |	    |	 								                             |       |
   |	    |  To Quit the Game: [Q] || To Restart the Game: [R]             |	     |
@@ -29,3 +29,4 @@
    \___________________________________________________________________________/
         !                                                                  !
          !________________________________________________________________!
+
