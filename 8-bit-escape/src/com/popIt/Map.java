@@ -251,42 +251,42 @@ class Map {
             e.printStackTrace();
         }
     }
+//Function for correct player map to generate based off of current gameplay location.
+//     public void roomPlayerMap() {
+//         JSONObject jsonObject;
+//         try {
+//             //instantiate parser to read file
+//             if (getCurrentRoom().equals("explosionsandzombies")) {
+//                 setObj(parser.parse(new FileReader(zombie)));
+//                 setCurrentRoom("start");
+//                 setMiniGame(true);
+//             }
+//             if(getMiniGame().equals(true)) {
+//                 jsonObject = (JSONObject) getObj();
+//             } else {
+//                 setObj(parser.parse(new FileReader(map)));
+//                 jsonObject = (JSONObject) getObj();
+//             }
+//             HashMap<String, String> roomMap = (HashMap<String, String>) jsonObject.get(getCurrentRoom());
+//             // iterate through jsonObject's key
+//             for (Object room : jsonObject.keySet()) {
+//                 // if the room key equals to the currentRoom
+//                 if (room.toString().equals(getCurrentRoom())) {
+//                     //if the key value is equal to
+//                     if (roomMap.get("id") != null) {
+//                         setId(roomMap.get("id"));
+//                         String roomMapPath = path + getId();
+//                         System.out.println(roomMapPath);
+//                         //Ascii.getText(roomMapPath);
+//                         break;
+//                     }
+//                 }
+//             }
+//         } catch (Exception e) {
+//             e.printStackTrace();
+//         }
 
-    public void roomPlayerMap() {
-        JSONObject jsonObject;
-        try {
-            //instantiate parser to read file
-            if (getCurrentRoom().equals("explosionsandzombies")) {
-                setObj(parser.parse(new FileReader(zombie)));
-                setCurrentRoom("start");
-                setMiniGame(true);
-            }
-            if(getMiniGame().equals(true)) {
-                jsonObject = (JSONObject) getObj();
-            } else {
-                setObj(parser.parse(new FileReader(map)));
-                jsonObject = (JSONObject) getObj();
-            }
-            HashMap<String, String> roomMap = (HashMap<String, String>) jsonObject.get(getCurrentRoom());
-            // iterate through jsonObject's key
-            for (Object room : jsonObject.keySet()) {
-                // if the room key equals to the currentRoom
-                if (room.toString().equals(getCurrentRoom())) {
-                    //if the key value is equal to
-                    if (roomMap.get("id") != null) {
-                        setId(roomMap.get("id"));
-                        String roomMapPath = path + getId();
-                        System.out.println(roomMapPath);
-                        //Ascii.getText(roomMapPath);
-                        break;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
+//     }
 
     private static InputStream getFileFromResourceAsStream(String fileName) {
         ClassLoader classLoader = Map.class.getClassLoader();
