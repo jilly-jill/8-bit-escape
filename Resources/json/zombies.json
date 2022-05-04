@@ -1,10 +1,12 @@
 {
   "start": {
+    "id": "23",
     "north": "hall",
     "lookroom": "Shattered windows, upended furniture and browned blood stains appear to be the new design motif. You can continue north.",
     "text": "The smell of gun-smoke and blood merge as you open your eyes and find yourself in what appears to be a massive crumbling manor. You hear gunshots in the distance and a chorus of guttural growls - growls that almost sounded human. What would you like to do?"
   },
   "hall": {
+    "id": "24",
     "north": "infirmary",
     "south": "start",
     "items": "walkie talkie",
@@ -14,6 +16,7 @@
     "text": "You are in a hallway. You see a side table. What would you like to do?"
   },
   "infirmary": {
+    "id": "25",
     "west": "kitchen",
     "north": "lab",
     "south": "hall",
@@ -24,6 +27,7 @@
     "text": "You enter the infirmary. It appears to be in complete disarray. What would you like to do?"
   },
   "kitchen": {
+    "id": "28",
     "north": "library",
     "east": "infirmary",
     "south": "basement",
@@ -33,6 +37,7 @@
     "text": "More bare shelves in the kitchen. A few cans adorn the shelves, past expiration - even for canned goods. What would you like to do?"
   },
   "basement": {
+    "id": "29",
     "north": "kitchen",
     "items": "rusty shotgun",
     "lookroom": "You cannot tell how large the basement is due to the dark. It is completely still. You can see an old shotgun resting on one of the last support beams visible before the light from the kitchen disappears. You can continue north",
@@ -40,6 +45,7 @@
     "text": "You take a deep breath as you open the door to the basement. The air is cool and damp. Sound exists in a vacuum. You hear nothing. A basement devoid of the sounds of rodents. What would you like to do?"
   },
   "library": {
+    "id": "27",
     "east": "lab",
     "south": "kitchen",
     "items": "lighter, shotgun shells",
@@ -49,6 +55,7 @@
     "text": "You enter what appears to be a once massive library. What would you like to do?"
   },
   "lab": {
+    "id": "26",
     "west": "library",
     "south": "infirmary",
     "lookroom":"Tubing, and IV cables lie on the ground. An observation window is shattered. Shards of glass crunch underfoot. You can move west or south.",
