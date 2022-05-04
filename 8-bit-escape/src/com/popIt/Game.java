@@ -99,7 +99,7 @@ public class Game {
     private void getUsername() {
         try {
             boolean validInput = false;
-            System.out.print("\n\nThe blinking cursor begins to move. On the text appears..\n" + "Welcome Player!\n" + "Please enter your name: \n" + ">");
+            System.out.print("Please enter your name: ");
             while (!validInput) {
                 String username = scanner.nextLine();
                 if (username.matches("[a-zA-Z]{2,15}")) {
@@ -164,16 +164,16 @@ public class Game {
     Code checked, sout remains if you want to check generated digits and verify logic works*/
     private int randomize() {
         double digit = Math.random() * 8;
-        if (!map.getCurrentRoom().equals("zombiesandexplosions")) {
-            if (digit <= 2) {
-                ascii.getText("json/ghost.txt");
-                player.setLives(player.getLives() - 1);
-                return player.getLives();
-            }
+        if(digit <= 2 ){
+            ascii.getText("json/ghost.txt");
+            player.setLives(player.getLives() -1);
+            return player.getLives();
         }
         return player.getLives();
     }
 
+    /*JS - 05/03 - if the current room contains "trap" - ascii.ghost generates ghost image and player loses 1 life
+     */
     private int trap() {
         try {
             if (map.getCurrentRoom().contains("trap")) {
@@ -206,7 +206,7 @@ public class Game {
             if (moveArray[0].equals("go")) {
                 if (moveArray[1].equals(map.getMap(moveArray[1])))
                     map.setCurrentRoom(map.getCurrentRoom());
-                //map.getRoomInfo();
+                    //map.getRoomInfo();
             }
             else if (moveArray[0].equals("look")) {
                 if (moveArray[1].equals(map.getCurrentRoom())) {
@@ -238,7 +238,6 @@ public class Game {
             else {
                 System.out.println("Please select a valid command");
             }
-            map.roomPlayerMap();
             trap();
             randomize();
             checkWin();
