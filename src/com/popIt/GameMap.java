@@ -322,7 +322,7 @@ class GameMap {
                         inventory.add(retrieve);
                     }
                     if (!roomMap.get("items").contains(retrieve)) {
-                        System.out.println("That item is not in this room.");
+                        System.out.println("That item is not here.");
                     }
                 }
             }
@@ -333,12 +333,12 @@ class GameMap {
 
     public void removeItems(String dropItem) {
         try{
-
-
+            if(getInventory().contains(dropItem)){
+                inventory.remove(dropItem);
+            }
+            else{ System.out.println("You don't have that item!");}
         }catch (Exception e){
-
         }
-
     }
 
     }
