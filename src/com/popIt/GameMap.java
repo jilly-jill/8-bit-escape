@@ -2,6 +2,7 @@ package com.popIt;
 
 import java.util.*;
 import java.io.*;
+import com.popIt.design.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
@@ -10,6 +11,7 @@ class GameMap {
     private JSONParser parser = new JSONParser();
     private ReadFile readFile = new ReadFile();
     private Player player = new Player();
+    private Ascii ascii = new Ascii();
     private String currentRoom;
     private String roomDesc;
     private String itemDesc;
@@ -21,9 +23,10 @@ class GameMap {
     private Object obj;
     private Boolean isMiniGame = false;
     private String items;
+    private String roomId;
     private final int timer = 7000;
+    private Boolean isMonster = false;
     private JSONObject jsonObject;
-
 
 
     // Getters and Setters
@@ -35,27 +38,49 @@ class GameMap {
         this.currentRoom = currentRoom;
     }
 
-    public String getRoomDesc() { return roomDesc; }
+    public String getRoomDesc() {
+        return roomDesc;
+    }
 
-    public void setRoomDesc(String roomDesc) { this.roomDesc = roomDesc; }
+    public void setRoomDesc(String roomDesc) {
+        this.roomDesc = roomDesc;
+    }
 
-    public String getItemDesc() { return itemDesc; }
+    public String getItemDesc() {
+        return itemDesc;
+    }
 
-    public void setItemDesc(String itemDesc) { this.itemDesc = itemDesc; }
+    public void setItemDesc(String itemDesc) {
+        this.itemDesc = itemDesc;
+    }
 
-    public String getItemDescOne() { return itemDescOne; }
+    public String getItemDescOne() {
+        return itemDescOne;
+    }
 
-    public void setItemDescOne(String itemDescOne) { this.itemDescOne = itemDescOne; }
+    public void setItemDescOne(String itemDescOne) {
+        this.itemDescOne = itemDescOne;
+    }
 
-    public String getItemDescTwo() { return itemDescTwo; }
+    public String getItemDescTwo() {
+        return itemDescTwo;
+    }
 
-    public void setItemDescTwo(String itemDescTwo) { this.itemDescTwo = itemDescTwo; }
+    public void setItemDescTwo(String itemDescTwo) {
+        this.itemDescTwo = itemDescTwo;
+    }
 
-    public String getItemList() { return itemList; }
+    public String getItemList() {
+        return itemList;
+    }
 
-    public void setItemList(String itemList) { this.itemList = itemList; }
+    public void setItemList(String itemList) {
+        this.itemList = itemList;
+    }
 
-    public Object getObj() { return obj;}
+    public Object getObj() {
+        return obj;
+    }
 
     public void setObj(Object obj) {
         this.obj = obj;
@@ -69,9 +94,29 @@ class GameMap {
         isMiniGame = miniGame;
     }
 
-    public String getItems() { return items; }
+    public String getItems() {
+        return items;
+    }
 
-    public void setItems(String items) { this.items = items; }
+    public void setItems(String items) {
+        this.items = items;
+    }
+
+    public String getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
+    }
+
+    public Boolean getMonster() {
+        return isMonster;
+    }
+
+    public void setMonster(Boolean monster) {
+        isMonster = monster;
+    }
 
     public JSONObject getJsonObject() {
         return jsonObject;
@@ -101,7 +146,7 @@ class GameMap {
         if (getMiniGame().equals(true)) {
             setJsonObject((JSONObject) getObj());
         } else {
-        // get map.json
+            // get map.json
             inputTestJSON = readFile.getFileFromResourceAsStream(mainMap, GameMap.class);
             setObj(parser.parse(new InputStreamReader(inputTestJSON, "UTF-8")));
 
@@ -111,15 +156,16 @@ class GameMap {
         return getJsonObject();
     }
 
-    public String getMap(String direction){
+    public String getMap(String direction) {
         String result = "";
         String previousRoom = "";
 
-        while(true) {
+        while (true) {
             try {
                 // createJson object
-                setJsonObject(createJson());
-                System.out.println("YOU WERE IN " + getCurrentRoom());
+                setJsonObject((JSONObject) createJson());
+//                System.out.println("YOU WERE IN " + getCurrentRoom());
+
                 // move jsonObject into a hashmap (to use built-in methods to move data)
                 HashMap<String, String> roomMap = (HashMap<String, String>) getJsonObject().get(getCurrentRoom());
                 // iterate through jsonObject's key
@@ -129,8 +175,8 @@ class GameMap {
                     if (room.toString().equals(getCurrentRoom())) {
                         // set that room key value of the key (direction) to the currentRoom EX: if "north" in "start" then assign "north"'s value to currentRoom
                         setCurrentRoom(roomMap.get(direction));
-                        if(getCurrentRoom() != null){
-                            System.out.println("YOU ARE NOW IN " + getCurrentRoom());
+                        if (getCurrentRoom() != null) {
+//                            System.out.println("YOU ARE NOW IN " + getCurrentRoom());
                         }
                         // set current room as result
                         result = getCurrentRoom();
@@ -146,7 +192,7 @@ class GameMap {
                     setCurrentRoom("start");
                     previousRoom = getCurrentRoom();
                     // if current room is null then set previous room as current
-                } else if (getCurrentRoom() == null){
+                } else if (getCurrentRoom() == null) {
                     System.out.println("Can't go that way...");
                     setCurrentRoom(previousRoom);
                 }
@@ -162,8 +208,7 @@ class GameMap {
 
     }
 
-    public void roomInfo () {
-
+    public void roomInfo() {
         try {
             setJsonObject(createJson());
             // move jsonObject into a hashmap (to use built-in methods to move data)
@@ -174,19 +219,21 @@ class GameMap {
                 if (room.toString().equals(getCurrentRoom())) {
                     // Setting the room text value to room description
                     setRoomDesc(roomMap.get("text"));
+                    //getRoomId and concat. pathname file - calling ascii class to get pathname and use to generate player map
+                    setRoomId(roomMap.get("id"));
+                    String pathName = "json/" + getRoomId() + ".txt";
+                    ascii.getText(pathName);
                     break;
                 }
             }
             System.out.println(getRoomDesc());
-            Thread.sleep(getTimer());
-        }catch(Exception e){
+//            Thread.sleep(getTimer());
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
-
-    public void itemInfo () {
+    public void itemInfo() {
         setItemDesc(" ");
         setItemDescOne(" ");
         setItemDescTwo(" ");
@@ -213,8 +260,7 @@ class GameMap {
                         if (roomMap.get("lookitemtwo") != null)
                             setItemDescTwo(roomMap.get("lookitemtwo"));
                         break;
-                    }
-                    else{
+                    } else {
                         System.out.println("There are no items in here!");
                     }
                 }
@@ -224,9 +270,9 @@ class GameMap {
                     getItemDescOne() + "\n" +
                     getItemDescTwo());
             Thread.sleep(getTimer());
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-}
+    }

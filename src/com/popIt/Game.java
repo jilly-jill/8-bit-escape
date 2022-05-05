@@ -123,11 +123,12 @@ public class Game {
     private void showStatus() {
         //show player and current room status
         //TODO: get/set logic for items
-        System.out.println("\n ===== " + player.getUsername() + "'s Current Status =====\n" +
-                "Current Room: " + gameMap.getCurrentRoom() + "\n" +
-                "Current Lives: " + player.getLives() + "\n" +
-                "Current Inventory: " + player.getInventory() + "\n" +
-                "=====\n");
+        gameMap.roomInfo();
+        System.out.println( "\n ========== " + player.getUsername() + "'s Current Status ==========\n" +
+                "  Current Room: " + gameMap.getCurrentRoom() + "\n" +
+                "  Current Lives: " + player.getLives() + "\n" +
+                "  Current Inventory: " + player.getInventory() + "\n" +
+                "========================================\n");
 
     }
 
@@ -138,7 +139,7 @@ public class Game {
             ascii.getText("json/win.txt");;
         }else if(player.getLives() < 1){
             checkWin = true;
-            ascii.getText("json/ghost.txt");;
+            ascii.getText("json/lose.txt");;
         }else {
             checkWin = false;
         }
@@ -164,9 +165,14 @@ public class Game {
     Code checked, sout remains if you want to check generated digits and verify logic works*/
     private int randomize() {
         double digit = Math.random() * 8;
-        if(digit <= 2 ){
+        if(digit <= 2 && gameMap.getCurrentRoom().matches("zombiesandexplosions|start|hall|infirmary|library|kitchen|basement")) {
+            ascii.getText("json/notnem.txt");
+            player.setLives(player.getLives() -1);
+            return player.getLives();
+        }else if(digit <= 2) {
             ascii.getText("json/ghost.txt");
             player.setLives(player.getLives() -1);
+            System.out.println("NOTNEMESIS APPEARS! YOU ARE ");
             return player.getLives();
         }
         return player.getLives();
