@@ -10,21 +10,22 @@ class GameMap {
     // Global Variables
     private JSONParser parser = new JSONParser();
     private ReadFile readFile = new ReadFile();
-    private Player player = new Player();
     private Ascii ascii = new Ascii();
     private String currentRoom;
     private String roomDesc;
+    private String lookRoomText;
     private String itemDesc;
     private final String mainMap = "json/map.json";
     private final String zombie = "json/zombies.json";
     private String itemDescOne;
     private String itemDescTwo;
     private String itemList;
+    private ArrayList inventory = new ArrayList();
     private Object obj;
     private Boolean isMiniGame = false;
     private String items;
     private String roomId;
-    private final int timer = 7000;
+    private final int timer = 5000;
     private Boolean isMonster = false;
     private JSONObject jsonObject;
 
@@ -45,6 +46,10 @@ class GameMap {
     public void setRoomDesc(String roomDesc) {
         this.roomDesc = roomDesc;
     }
+
+    public String getLookRoomText() { return lookRoomText; }
+
+    public void setLookRoomText(String lookRoomText) { this.lookRoomText = lookRoomText; }
 
     public String getItemDesc() {
         return itemDesc;
@@ -77,6 +82,10 @@ class GameMap {
     public void setItemList(String itemList) {
         this.itemList = itemList;
     }
+
+    public ArrayList getInventory() { return inventory; }
+
+    public void setInventory(ArrayList inventory) { this.inventory = inventory; }
 
     public Object getObj() {
         return obj;
@@ -164,7 +173,6 @@ class GameMap {
             try {
                 // createJson object
                 setJsonObject((JSONObject) createJson());
-//                System.out.println("YOU WERE IN " + getCurrentRoom());
 
                 // move jsonObject into a hashmap (to use built-in methods to move data)
                 HashMap<String, String> roomMap = (HashMap<String, String>) getJsonObject().get(getCurrentRoom());
@@ -233,6 +241,31 @@ class GameMap {
         }
     }
 
+    public void lookRoomInfo() {
+        try {
+            setJsonObject(createJson());
+            // move jsonObject into a hashmap (to use built-in methods to move data)
+            HashMap<String, String> roomMap = (HashMap<String, String>) getJsonObject().get(getCurrentRoom());
+            // iterate through jsonObject's key
+            for (Object room : getJsonObject().keySet()) {
+                // if the room key equals to the currentRoom
+                if (room.toString().equals(getCurrentRoom())) {
+                    // Setting the room text value to room description
+                    setLookRoomText(roomMap.get("lookroom"));
+                    //getRoomId and concat. pathname file - calling ascii class to get pathname and use to generate player map
+                    setRoomId(roomMap.get("id"));
+                    String pathName = "json/" + getRoomId() + ".txt";
+                    ascii.getText(pathName);
+                    break;
+                }
+            }
+            System.out.println(getLookRoomText());
+            Thread.sleep(timer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void itemInfo() {
         setItemDesc(" ");
         setItemDescOne(" ");
@@ -273,6 +306,39 @@ class GameMap {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void retrieveItems(String retrieve) {
+        try {
+            setJsonObject(createJson());
+            // move jsonObject into a hashmap (to use built-in methods to move data)
+            HashMap<String, String> roomMap = (HashMap<String, String>) getJsonObject().get(getCurrentRoom());
+            // iterate through jsonObject's key
+            for (Object room : getJsonObject().keySet()) {
+                // if the room key equals to the currentRoom we will be getting items from
+                if (room.toString().equals(getCurrentRoom())) {
+                    // if the items value contains movearray[1], then add movearray[1] to the inventory
+                    if(roomMap.get("items").contains(retrieve)) {
+                        inventory.add(retrieve);
+                    }
+                    if (!roomMap.get("items").contains(retrieve)) {
+                        System.out.println("That item is not in this room.");
+                    }
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void removeItems(String dropItem) {
+        try{
+
+
+        }catch (Exception e){
+
+        }
+
     }
 
     }
