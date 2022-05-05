@@ -198,7 +198,7 @@ public class Game {
 
     private void gamePlay() {
         player.setLives(5);
-        gameMap.setCurrentRoom("start");
+        gameMap.setCurrentRoom("corridor11");
 
         while (true) {
             clearScreen();
@@ -220,15 +220,18 @@ public class Game {
                 } else if (moveArray[1].equals("items")) {
                     gameMap.itemInfo();
                 }
-            } else if (moveArray[0].equals("get")) {
+            } else if (moveArray[0].matches("get|grab")) {
                 gameMap.retrieveItems(moveArray[1]);
 
             } else if (moveArray[0].matches("drop|remove")) {
-                // gameMap.removeItems(moveArray[1]);
+                    gameMap.removeItems(moveArray[1]);
             }else if (moveArray[0].equals("use")) {
                 if (moveArray[1].equals("adrenaline") && gameMap.getInventory().contains("adrenaline")){
                     player.setLives(player.getLives() +1);
-                    // gameMap.removeItems(moveArray[1]);
+                    gameMap.removeItems(moveArray[1]);
+                }
+                else {
+                    System.out.println("You don't have that item, so you can't use it!");
                 }
             }
 
