@@ -18,6 +18,7 @@ import com.popIt.design.*;
 
  */
 public class Game {
+    private SoundPlayer sound = new SoundPlayer();
     private final Player player = new Player();
     private final Scanner scanner = new Scanner(System.in);
     private GameMap gameMap = new GameMap();
@@ -89,11 +90,12 @@ public class Game {
     }
 
     private void getSplashTheme() {
-        ascii.getText("json/splash.txt");
+        ascii.getText("text/splash.txt");
     }
 
     private void getOpening() {
-        ascii.getText("json/opening.txt");
+        ascii.getText("text/opening.txt");
+        sound.makeSound("Resources/sound/CantinaBand60.wav");
     }
 
     private void getUsername() {
@@ -117,7 +119,7 @@ public class Game {
     }
 
     private void getMenu() {
-        ascii.getText("json/directions.txt");
+        ascii.getText("text/directions.txt");
     }
 
     private void showStatus() {
@@ -136,10 +138,10 @@ public class Game {
         String currentRoom = gameMap.getCurrentRoom();
         if (currentRoom.equals("mazecenter")) {
             checkWin = true;
-            ascii.getText("json/win.txt");;
+            ascii.getText("text/win.txt");;
         }else if(player.getLives() < 1){
             checkWin = true;
-            ascii.getText("json/lose.txt");;
+            ascii.getText("text/lose.txt");;
         }else {
             checkWin = false;
         }
@@ -166,11 +168,11 @@ public class Game {
     private int randomize() {
         double digit = Math.random() * 8;
         if(digit <= 2 && gameMap.getCurrentRoom().matches("zombiesandexplosions|start|hall|infirmary|library|kitchen|basement")) {
-            ascii.getText("json/notnem.txt");
+            ascii.getText("text/notnem.txt");
             player.setLives(player.getLives() -1);
             return player.getLives();
         }else if(digit <= 2) {
-            ascii.getText("json/ghost.txt");
+            ascii.getText("text/ghost.txt");
             player.setLives(player.getLives() -1);
             System.out.println("NOTNEMESIS APPEARS! YOU ARE ");
             return player.getLives();
@@ -183,7 +185,7 @@ public class Game {
     private int trap() {
         try {
             if (gameMap.getCurrentRoom().contains("trap")) {
-                ascii.getText("json/ghost.txt");
+                ascii.getText("text/ghost.txt");
                 player.setLives(player.getLives() - 1);
             }
             return player.getLives();

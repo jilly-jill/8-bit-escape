@@ -229,7 +229,7 @@ class GameMap {
                     setRoomDesc(roomMap.get("text"));
                     //getRoomId and concat. pathname file - calling ascii class to get pathname and use to generate player map
                     setRoomId(roomMap.get("id"));
-                    String pathName = "json/" + getRoomId() + ".txt";
+                    String pathName = "text/" + getRoomId() + ".txt";
                     ascii.getText(pathName);
                     break;
                 }
@@ -254,7 +254,7 @@ class GameMap {
                     setLookRoomText(roomMap.get("lookroom"));
                     //getRoomId and concat. pathname file - calling ascii class to get pathname and use to generate player map
                     setRoomId(roomMap.get("id"));
-                    String pathName = "json/" + getRoomId() + ".txt";
+                    String pathName = "text/" + getRoomId() + ".txt";
                     ascii.getText(pathName);
                     break;
                 }
