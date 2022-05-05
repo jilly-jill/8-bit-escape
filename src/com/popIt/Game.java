@@ -52,7 +52,7 @@ public class Game {
         this.checkWin = checkWin;
     }
 
-    public void execute() {
+    public void execute()  {
         System.out.println("Executing game...");
         welcome();
         while (!isOver()) {
@@ -81,7 +81,6 @@ public class Game {
 
     public void welcome() {
 
-
         getSplashTheme();
         getOpening();
         getUsername();
@@ -95,7 +94,7 @@ public class Game {
 
     private void getOpening() {
         ascii.getText("text/opening.txt");
-        sound.makeSound("Resources/sound/CantinaBand60.wav");
+        sound.play("Resources/sound/CantinaBand60.wav",6000);
     }
 
     private void getUsername() {
@@ -107,6 +106,7 @@ public class Game {
                 if (username.matches("[a-zA-Z]{2,15}")) {
                     player.setUsername(username.substring(0, 1).toUpperCase() + username.substring(1).toLowerCase());
                     validInput = true;
+
                 } else {
                     System.out.println(
                             "Please enter a valid user name between 2 and 15 characters (numbers not allowed)");
