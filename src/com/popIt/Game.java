@@ -103,7 +103,7 @@ public class Game {
             while (!validInput) {
                 String username = scanner.nextLine();
                 if (username.matches("[a-zA-Z]{2,15}")) {
-                    player.setUsername(username);
+                    player.setUsername(username.substring(0, 1).toUpperCase() + username.substring(1).toLowerCase());
                     validInput = true;
                 } else {
                     System.out.println(
@@ -127,7 +127,7 @@ public class Game {
         System.out.println( "\n ========== " + player.getUsername() + "'s Current Status ==========\n" +
                 "  Current Room: " + gameMap.getCurrentRoom() + "\n" +
                 "  Current Lives: " + player.getLives() + "\n" +
-                "  Current Inventory: " + player.getInventory() + "\n" +
+                "  Current Inventory: " + gameMap.getInventory() + "\n" +
                 "========================================\n");
 
     }
@@ -197,7 +197,6 @@ public class Game {
     private void gamePlay() {
         player.setLives(5);
         gameMap.setCurrentRoom("start");
-        player.setInventory(null);
 
         while (true) {
             clearScreen();
@@ -212,15 +211,26 @@ public class Game {
             if (moveArray[0].equals("go")) {
                 if (moveArray[1].equals(gameMap.getMap(moveArray[1])))
                     gameMap.setCurrentRoom(gameMap.getCurrentRoom());
-                //map.getRoomInfo();
             }
             else if (moveArray[0].equals("look")) {
                 if (moveArray[1].equals(gameMap.getCurrentRoom())) {
-                    gameMap.roomInfo();
+                    gameMap.lookRoomInfo();
                 } else if (moveArray[1].equals("items")) {
                     gameMap.itemInfo();
                 }
-            } else if (move.matches("show menu|menu")) {
+            } else if (moveArray[0].equals("get")) {
+                gameMap.retrieveItems(moveArray[1]);
+
+            } else if (moveArray[0].matches("drop|remove")) {
+                // gameMap.removeItems(moveArray[1]);
+            }else if (moveArray[0].equals("use")) {
+                if (moveArray[1].equals("adrenaline") && gameMap.getInventory().contains("adrenaline")){
+                    player.setLives(player.getLives() +1);
+                    // gameMap.removeItems(moveArray[1]);
+                }
+            }
+
+            else if (move.matches("show menu|menu")) {
                 getMenu();
                 String input = scanner.nextLine().toLowerCase();
                 if (input.matches("q|quit")) {
@@ -244,6 +254,7 @@ public class Game {
             else {
                 System.out.println("Please select a valid command");
             }
+
             trap();
             randomize();
             checkWin();

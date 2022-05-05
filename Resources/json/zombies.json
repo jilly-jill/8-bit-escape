@@ -9,7 +9,7 @@
     "id": "24",
     "north": "infirmary",
     "south": "start",
-    "items": "walkie talkie",
+    "items": "walkie-talkie",
     "lookroom": "A broken chandelier is on the floor, glass is littered across the marble. There is a small end table, on it sits a walkie talkie. You can continue north or south.",
     "lookitem": "An old walkie-talkie. The knobs are missing. A bloody hand-print wraps around it.",
     "message": "A voice cracks over the radio 'HELLO! HELLO! IS ANYONE STILL IN THERE? YOU NEED TO GET OUT, NOW! IT'S LOOSE IN THE MANOR, TOTALLYNOTNEMESIS WAS RELEASED BY THE RAINCOAT CORP. IT'S A NEW ROUND OF TESTING ON HUMAN SUBJECTS. I KNOW THERE'S AT LEAST A SHOTGUN, SHELLS, AND MAYBE THE MAKINGS OF A MOLOTOV COCKTAIL. THE INFIRMARY SHOULD HAVE ADRENALINE. YOU'RE GOING TO NEED IT. GET A WEAPON AND THE ADRENALINE AND GET THE HELL OUT OF THERE!' The message ends.",
