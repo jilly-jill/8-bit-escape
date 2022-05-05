@@ -2,7 +2,6 @@ package com.popIt;
 
 import java.util.*;
 import java.io.*;
-
 import com.popIt.design.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
@@ -166,6 +165,7 @@ class GameMap {
                 // createJson object
                 setJsonObject((JSONObject) createJson());
 //                System.out.println("YOU WERE IN " + getCurrentRoom());
+
                 // move jsonObject into a hashmap (to use built-in methods to move data)
                 HashMap<String, String> roomMap = (HashMap<String, String>) getJsonObject().get(getCurrentRoom());
                 // iterate through jsonObject's key
@@ -209,9 +209,8 @@ class GameMap {
     }
 
     public void roomInfo() {
-
         try {
-            setJsonObject((JSONObject) createJson());
+            setJsonObject(createJson());
             // move jsonObject into a hashmap (to use built-in methods to move data)
             HashMap<String, String> roomMap = (HashMap<String, String>) getJsonObject().get(getCurrentRoom());
             // iterate through jsonObject's key
@@ -234,7 +233,6 @@ class GameMap {
         }
     }
 
-
     public void itemInfo() {
         setItemDesc(" ");
         setItemDescOne(" ");
@@ -242,7 +240,7 @@ class GameMap {
         setItemList(" ");
         try {
             // create jsonObject
-            setJsonObject((JSONObject) createJson());
+            setJsonObject(createJson());
             // move jsonObject into a hashmap (to use built-in methods to move data)
             HashMap<String, String> roomMap = (HashMap<String, String>) getJsonObject().get(getCurrentRoom());
             // iterate through jsonObject's key
@@ -278,8 +276,3 @@ class GameMap {
     }
 
     }
-
-
-
-
-
