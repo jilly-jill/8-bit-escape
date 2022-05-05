@@ -322,7 +322,7 @@ class GameMap {
                         inventory.add(retrieve);
                     }
                     if (!roomMap.get("items").contains(retrieve)) {
-                        System.out.println("That item is not in this room.");
+                        System.out.println("That item is not here.");
                     }
                 }
             }

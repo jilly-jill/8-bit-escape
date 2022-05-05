@@ -198,7 +198,7 @@ public class Game {
 
     private void gamePlay() {
         player.setLives(5);
-        gameMap.setCurrentRoom("corridor11");
+        gameMap.setCurrentRoom("start");
 
         while (true) {
             clearScreen();
@@ -231,7 +231,7 @@ public class Game {
                     gameMap.removeItems(moveArray[1]);
                 }
                 else {
-                    System.out.println("You don't have that item, so you can't use it!");
+                    System.out.println("You can't use that item!");
                 }
             }
 
