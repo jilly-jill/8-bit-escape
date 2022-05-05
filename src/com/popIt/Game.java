@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.*;
 import com.popIt.design.*;
 
+import javax.sound.sampled.Clip;
+
 /* TODO: Resident Evil mini-game - Hallway - Walkie Talkie:
     If user gets walkie talkie, iterate through inventory once item is set
         if user has walkie talkie, have walkie talkie print 'message' associated w/ json object
@@ -26,6 +28,7 @@ public class Game {
     private boolean isOver;
     private boolean endGamePlay;
     private boolean checkWin;
+    private Clip openSound = sound.play("Resources/sound/StarWars60.wav", true, 0);
 
 
     public boolean isOver() {
@@ -55,20 +58,26 @@ public class Game {
     public void execute()  {
         System.out.println("Executing game...");
         welcome();
+
         while (!isOver()) {
             try {
+
                 while (!isEndGamePlay()) {
                     try {
                         gamePlay();
                         if (isOver()) {
                             break;
                         }
+
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    System.out.println("game is over= " + isOver());
-                    System.out.println("end game play= " + isEndGamePlay());
+//                    System.out.println("game is over= " + isOver());
+//                    System.out.println("end game play= " + isEndGamePlay());
                 }
+
+
                 if (isEndGamePlay()) {
                     setEndGamePlay(false);
                 }
@@ -90,11 +99,12 @@ public class Game {
 
     private void getSplashTheme() {
         ascii.getText("text/splash.txt");
+        openSound.start();
     }
 
     private void getOpening() {
         ascii.getText("text/opening.txt");
-        sound.play("Resources/sound/CantinaBand60.wav",6000);
+
     }
 
     private void getUsername() {
@@ -199,22 +209,23 @@ public class Game {
     private void gamePlay() {
         player.setLives(5);
         gameMap.setCurrentRoom("start");
+        Clip themeSong = sound.play("Resources/sound/CantinaBand60.wav", true, 0);
+        openSound.stop();
 
         while (true) {
             clearScreen();
             showStatus();
-
             String move = "";
             while (move.equals("")) {
                 System.out.println("enter command >");
                 move = scanner.nextLine().toLowerCase();
             }
             String[] moveArray = move.split(" ");
+
             if (moveArray[0].equals("go")) {
                 if (moveArray[1].equals(gameMap.getMap(moveArray[1])))
                     gameMap.setCurrentRoom(gameMap.getCurrentRoom());
-            }
-            else if (moveArray[0].equals("look")) {
+            } else if (moveArray[0].equals("look")) {
                 if (moveArray[1].equals(gameMap.getCurrentRoom())) {
                     gameMap.lookRoomInfo();
                 } else if (moveArray[1].equals("items")) {
@@ -225,7 +236,7 @@ public class Game {
 
             } else if (moveArray[0].matches("drop|remove")) {
                     gameMap.removeItems(moveArray[1]);
-            }else if (moveArray[0].equals("use")) {
+            } else if (moveArray[0].equals("use")) {
                 if (moveArray[1].equals("adrenaline") && gameMap.getInventory().contains("adrenaline")){
                     player.setLives(player.getLives() +1);
                     gameMap.removeItems(moveArray[1]);
@@ -233,9 +244,7 @@ public class Game {
                 else {
                     System.out.println("You can't use that item!");
                 }
-            }
-
-            else if (move.matches("show menu|menu")) {
+            } else if (move.matches("show menu|menu")) {
                 getMenu();
                 String input = scanner.nextLine().toLowerCase();
                 if (input.matches("q|quit")) {
@@ -255,9 +264,21 @@ public class Game {
                 if (input.matches("c|continue|")) {
                     System.out.println("continuing game");
                 }
+
+                if(input.matches("p|play")){
+                    System.out.println("Music on");
+                    themeSong.start();
+                }
+
+                if(input.matches("s|stop")){
+                    System.out.println("Music off");
+                    themeSong.stop();
+
+                }
+
             }
             else {
-                System.out.println("Please select a valid command");
+                System.out.println("Command not recognized");
             }
 
             trap();

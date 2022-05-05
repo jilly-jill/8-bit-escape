@@ -17,6 +17,7 @@
   |	    |	 								                             |       |
   |	    |  To Get Room or Item Details: LOOK [room | item]	             |       |
   |	    |	 				  				                             |       |
+  |	    |  Press [S] to stop music || Press [P] to play music	         |	     |
   |	    |	 								                             |       |
   |	    |  To Quit the Game: [Q] || To Restart the Game: [R]             |	     |
   |	    |  While Playing See This Menu: [H]                              |       |
