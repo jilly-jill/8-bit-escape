@@ -6,11 +6,10 @@ import com.popIt.design.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
-
 class GameMap {
     // Global Variables
-    private final static String step1 = "Resources/sound/footStep1.wav";
-    private final static String step2 = "Resources/sound/footStep2.wav";
+    private final static String step1 = "sound/footStep1.wav";
+    private final static String step2 = "sound/footStep2.wav";
     private JSONParser parser = new JSONParser();
     private ReadFile readFile = new ReadFile();
     private Ascii ascii = new Ascii();
@@ -145,7 +144,7 @@ class GameMap {
 
     // reads json file according to the room the player is in
     private JSONObject createJson() throws IOException, ParseException {
-
+        //private Object obj;
         InputStream inputTestJSON;
         // if current room is zombies then read zombie.json
         if (getCurrentRoom().equals("explosionsandzombies")) {
@@ -171,11 +170,12 @@ class GameMap {
     public String getMap(String direction) {
         String result = "";
         String previousRoom = "";
+        InputStream inputWavSound;
 
         while (true) {
             try {
                 // createJson object
-                setJsonObject((JSONObject) createJson());
+                setJsonObject(createJson());
 
                 // move jsonObject into a hashmap (to use built-in methods to move data)
                 HashMap<String, String> roomMap = (HashMap<String, String>) getJsonObject().get(getCurrentRoom());
@@ -187,9 +187,11 @@ class GameMap {
                         // set that room key value of the key (direction) to the currentRoom EX: if "north" in "start" then assign "north"'s value to currentRoom
                         setCurrentRoom(roomMap.get(direction));
                         for(int i = 0; i < 3; i++) {
+
                             sound.play(step1, true, 0);
                             Thread.sleep(0200);
                             sound.play(step2, true, 0);
+
                             Thread.sleep(0200);
                         }
                         if (getCurrentRoom() != null) {
