@@ -28,7 +28,7 @@ public class Game {
     private boolean isOver;
     private boolean endGamePlay;
     private boolean checkWin;
-    private Clip openSound = sound.play("Resources/sound/StarWars60.wav", true, 0);
+    private final Clip openSound = sound.play("Resources/sound/StarWars60.wav", true, 0);
 
 
     public boolean isOver() {
@@ -73,8 +73,7 @@ public class Game {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-//                    System.out.println("game is over= " + isOver());
-//                    System.out.println("end game play= " + isEndGamePlay());
+
                 }
 
 
@@ -99,7 +98,6 @@ public class Game {
 
     private void getSplashTheme() {
         ascii.getText("text/splash.txt");
-        openSound.start();
     }
 
     private void getOpening() {
@@ -208,10 +206,10 @@ public class Game {
 
     private void gamePlay() {
         player.setLives(5);
-        gameMap.setCurrentRoom("start");
-        Clip themeSong = sound.play("Resources/sound/CantinaBand60.wav", true, 0);
-        openSound.stop();
 
+        gameMap.setCurrentRoom("explosionsandzombies");
+        openSound.stop();
+        Clip themeSong = sound.play("Resources/sound/CantinaBand60.wav", true, 0);
         while (true) {
             clearScreen();
             showStatus();
@@ -221,10 +219,10 @@ public class Game {
                 move = scanner.nextLine().toLowerCase();
             }
             String[] moveArray = move.split(" ");
-
             if (moveArray[0].equals("go")) {
-                if (moveArray[1].equals(gameMap.getMap(moveArray[1])))
+                if (moveArray[1].equals(gameMap.getMap(moveArray[1]))) {
                     gameMap.setCurrentRoom(gameMap.getCurrentRoom());
+                }
             } else if (moveArray[0].equals("look")) {
                 if (moveArray[1].equals(gameMap.getCurrentRoom())) {
                     gameMap.lookRoomInfo();
@@ -291,3 +289,9 @@ public class Game {
         }
     }
 }
+
+// OPEN song
+// Theme song
+// narration & theme song will toggle opposite of each other
+    // sound fx for actions and menu selection
+// ending and winning song/sound
