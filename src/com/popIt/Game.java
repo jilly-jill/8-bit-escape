@@ -5,6 +5,7 @@ import java.util.*;
 import com.popIt.design.*;
 
 import javax.sound.sampled.Clip;
+
 public class Game {
     private SoundPlayer sound = new SoundPlayer();
     private final Player player = new Player();
@@ -17,7 +18,8 @@ public class Game {
     private boolean isBoss;
     private Clip openSound = sound.play("Resources/sound/8-bit-audio.wav", true, 0);
     private boolean beatMiniGame;
-    private ArrayList<String> winConditions = new ArrayList<>();
+    //private ArrayList<String> winConditions = new ArrayList<>();
+    private final Clip openSound = sound.play("sound/StarWars60.wav", true, 0);
 
 
     public boolean isOver() {
@@ -44,6 +46,7 @@ public class Game {
         this.checkWin = checkWin;
     }
 
+
     public boolean isBoss() {
         return isBoss;
     }
@@ -61,13 +64,14 @@ public class Game {
     }
 
 
-    public ArrayList<String> getWinConditions() {
-        return winConditions;
-    }
+//     public ArrayList<String> getWinConditions() {
+//         return winConditions;
+//     }
 
-    public void setWinConditions(ArrayList<String> winConditions) {
-        this.winConditions = winConditions;
-    }
+//     public void setWinConditions(ArrayList<String> winConditions) {
+//         this.winConditions = winConditions;
+//     }
+
 
     public void execute()  {
         System.out.println("Executing game...");
@@ -87,8 +91,10 @@ public class Game {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
 //                    System.out.println("game is over= " + isOver());
 //                    System.out.println("end game play= " + isEndGamePlay());
+
                 }
 
 
@@ -288,12 +294,16 @@ public class Game {
         //Clip themeSong = sound.play("Resources/sound/CantinaBand60.wav", true, 0);
         openSound.stop();
 
+        gameMap.setCurrentRoom("explosionsandzombies");
+        openSound.stop();
+        Clip themeSong = sound.play("sound/CantinaBand60.wav", true, 0);
         while (true) {
             System.out.println(beatMiniGame());
             clearScreen();
             showStatus();
             miniGameCheck();
-//            bossFight();
+
+
 
             String move = "";
             while (move.equals("")) {
@@ -303,8 +313,11 @@ public class Game {
             String[] moveArray = move.split(" ");
 
             if (moveArray[0].equals("go")) {
-                if (moveArray[1].equals(gameMap.getMap(moveArray[1])))
+                if (moveArray[1].equals(gameMap.getMap(moveArray[1]))) {
                     gameMap.setCurrentRoom(gameMap.getCurrentRoom());
+
+                }
+
             } else if (moveArray[0].equals("look")) {
                 if (moveArray[1].equals(gameMap.getCurrentRoom())) {
                     gameMap.lookRoomInfo();
@@ -315,7 +328,11 @@ public class Game {
                 gameMap.retrieveItems(moveArray[1]);
 
             } else if (moveArray[0].matches("drop|remove")) {
+
                 gameMap.removeItems(moveArray[1]);
+
+                    gameMap.removeItems(moveArray[1]);
+
             } else if (moveArray[0].equals("use")) {
                 if (moveArray[1].equals("adrenaline") && gameMap.getInventory().contains("adrenaline")){
                     player.setLives(player.getLives() +1);
@@ -347,12 +364,20 @@ public class Game {
 
                 if(input.matches("p|play")){
                     System.out.println("Music on");
+
                     //themeSong.start();
+
+                    themeSong.start();
+
                 }
 
                 if(input.matches("s|stop")){
                     System.out.println("Music off");
+
                     //themeSong.stop();
+
+                    themeSong.stop();
+
 
                 }
 
@@ -371,4 +396,12 @@ public class Game {
     }
 }
 
+
+
+=======
+// OPEN song
+// Theme song
+// narration & theme song will toggle opposite of each other
+    // sound fx for actions and menu selection
+// ending and winning song/sound
 

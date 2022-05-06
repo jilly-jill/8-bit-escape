@@ -12,8 +12,9 @@
     "south": "start",
     "items": "walkie-talkie",
     "combine": "molotov-cocktail, loaded-shotgun, token",
+    "sound": "sound/pickUpItem.wav",
     "lookroom": "A broken chandelier is on the floor, glass is littered across the marble. There is a small end table, on it sits a walkie talkie. You can continue north or south.",
-    "lookitem": "An old walkie-talkie. The knobs are missing. A bloody hand-print wraps around it.",
+    "lookitem": "walkie-talkie: The knobs are missing. A bloody hand-print wraps around it.",
     "message": "A voice cracks over the radio 'HELLO! HELLO! IS ANYONE STILL IN THERE? YOU NEED TO GET OUT, NOW! IT'S LOOSE IN THE MANOR, TOTALLYNOTNEMESIS WAS RELEASED BY THE RAINCOAT CORP. IT'S A NEW ROUND OF TESTING ON HUMAN SUBJECTS. I KNOW THERE'S AT LEAST A SHOTGUN, SHELLS, AND MAYBE THE MAKINGS OF A MOLOTOV COCKTAIL. THE INFIRMARY SHOULD HAVE ADRENALINE. YOU'RE GOING TO NEED IT. GET A WEAPON AND THE ADRENALINE AND GET THE HELL OUT OF THERE!' The message ends.",
     "text": "You are in a hallway. You see a side table. What would you like to do?"
   },
@@ -24,9 +25,10 @@
     "south": "hall",
     "combine": "molotov-cocktail, loaded-shotgun, token",
     "items": "adrenaline, bandages",
+    "sound": "sound/pickUpItem.wav",
     "lookroom": "Bare shelving surrounds the room. Sheets are shredded and are covered in unknown stains. There's a single examination table, tipped over on the floor. Shelving has been pulled slightly away from the wall. What appears to remain is a roll of cotton bandages and Adrenaline. You can continue west, north, or south.",
-    "lookitemone": "A cylindrical epi-pen with a cap tightly affixed. 'EPI-PEN' is in block font along the side. ",
-    "lookitemtwo": "A roll of white cotton bandages. Edges are frayed but the roll is still intact.",
+    "lookitemone": "adrenaline: A cylindrical epi-pen with a cap tightly affixed. 'EPI-PEN' is in block font along the side. ",
+    "lookitemtwo": "bandages: A roll of white cotton bandages. Edges are frayed but the roll is still intact.",
     "text": "You enter the infirmary. It appears to be in complete disarray. What would you like to do?"
   },
   "kitchen": {
@@ -36,8 +38,10 @@
     "south": "basement",
     "items": "bottle",
     "combine": "molotov-cocktail, loaded-shotgun, token",
+    "items": "bottle",
+    "sound": "sound/pickUpItem.wav",
     "lookroom": "A massive industrial sized kitchen. Cupboards are open and bare. A few cans sit on the counter. On the table is a bottle of rum. A door sits slightly ajar at the far end of the kitchen. You can move north, east, or south.",
-    "lookitem": "A faded label adorns the bottle. You can barely make out the numbers 151. Able to ID liquor by scent.",
+    "lookitem": "bottle: You can barely make out the numbers 151. Able to ID liquor by scent.",
     "text": "More bare shelves in the kitchen. A few cans adorn the shelves, past expiration - even for canned goods. What would you like to do?"
   },
   "basement": {
@@ -45,8 +49,9 @@
     "north": "kitchen",
     "items": "rusty-shotgun",
     "combine": "molotov-cocktail, loaded-shotgun, token",
+    "sound": "sound/loadShotgun.wav",
     "lookroom": "You cannot tell how large the basement is due to the dark. It is completely still. You can see an old shotgun resting on one of the last support beams visible before the light from the kitchen disappears. You can continue north",
-    "lookitem": "An old pump action shotgun. The barrel is rusted, the forearm and trigger are still functional.",
+    "lookitem": "rusty-shotgun: The barrel is rusted, the forearm and trigger are still functional.",
     "text": "You take a deep breath as you open the door to the basement. The air is cool and damp. Sound exists in a vacuum. You hear nothing. A basement devoid of the sounds of rodents. What would you like to do?"
   },
   "library": {
@@ -55,9 +60,10 @@
     "south": "kitchen",
     "combine": "molotov-cocktail, loaded-shotgun, token",
     "items": "lighter, shotgun-shells",
+    "sound": "sound/pickUpItem.wav",
     "lookroom": " A massive dome shaped room. Volumes lie tattered on faded and stained intricate rugs. A leather sofa is torn, the sofa filling pouring out, stained with deep brown stains. Old blood. Heavy drapes are heaped on the floor punctuated by family photographs. A child's hand outlined and fashioned as a turkey rests on the desk. Next to it, a Zippo lighter. On a shelf behind the desk, a white cardboard box is tucked behind a massive tome. Shotgun shells. You can move east, or south",
-    "lookitemone": "A black Zippo, appears to be half full. Engraved on the front is an ominous logo, The Raincoat Company.",
-    "lookitemtwo": "2 shotgun shells. Standard.",
+    "lookitemone": "lighter: A black Zippo, appears to be half full. Engraved on the front is an ominous logo, The Raincoat Company.",
+    "lookitemtwo": "shotgun-shells: 2 shotgun shells. Standard.",
     "text": "You enter what appears to be a once massive library. What would you like to do?"
   },
   "lab": {
