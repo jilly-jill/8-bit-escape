@@ -6,6 +6,7 @@ import com.popIt.design.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
+
 class GameMap {
     // Global Variables
     private JSONParser parser = new JSONParser();
@@ -28,7 +29,7 @@ class GameMap {
     private final int timer = 5000;
     private Boolean isMonster = false;
     private JSONObject jsonObject;
-
+    private SoundPlayer sound = new SoundPlayer();
 
     // Getters and Setters
     public String getCurrentRoom() {
@@ -265,7 +266,6 @@ class GameMap {
             e.printStackTrace();
         }
     }
-
     public void itemInfo() {
         setItemDesc(" ");
         setItemDescOne(" ");
@@ -281,17 +281,16 @@ class GameMap {
                 // if the room key equals to the currentRoom
                 if (room.toString().equals(getCurrentRoom())) {
                     if (roomMap.get("items") != null) {
-                        if (roomMap.get("items") != null) {
-                            setItemList(roomMap.get("items"));
-                        }
-                        if (roomMap.get("lookitem") != null) {
-                            setItemDesc(roomMap.get("lookitem"));
-                        }
-                        if (roomMap.get("lookitemone") != null) {
-                            setItemDescOne(roomMap.get("lookitemone"));
-                        }
-                        if (roomMap.get("lookitemtwo") != null)
-                            setItemDescTwo(roomMap.get("lookitemtwo"));
+                        setItemList(roomMap.get("items"));
+                    }
+                    if (roomMap.get("lookitem") != null) {
+                        setItemDesc(roomMap.get("lookitem"));
+                    }
+                    if (roomMap.get("lookitemone") != null) {
+                        setItemDescOne(roomMap.get("lookitemone"));
+                    }
+                    if (roomMap.get("lookitemtwo") != null) {
+                        setItemDescTwo(roomMap.get("lookitemtwo"));
                         break;
                     } else {
                         System.out.println("There are no items in here!");
@@ -309,6 +308,7 @@ class GameMap {
     }
 
     public void retrieveItems(String retrieve) {
+
         try {
             setJsonObject(createJson());
             // move jsonObject into a hashmap (to use built-in methods to move data)
@@ -318,14 +318,28 @@ class GameMap {
                 // if the room key equals to the currentRoom we will be getting items from
                 if (room.toString().equals(getCurrentRoom())) {
                     // if the items value contains movearray[1], then add movearray[1] to the inventory
-                    if(roomMap.get("items").contains(retrieve)) {
-                        inventory.add(retrieve);
+                    if(roomMap.get("items") != null){
+                        if(roomMap.get("items").contains(retrieve)){
+                                inventory.add(retrieve);}
+                    }else if (roomMap.get("combine") != null){
+                        if(roomMap.get("combine").contains(retrieve)){
+                            inventory.add(retrieve);}
+                        }
+                    else{
+                        System.out.println("That item is not here.");
                     }
-                    if (!roomMap.get("items").contains(retrieve)) {
-                        System.out.println("That item is not in this room.");
+
+                        // Universal sound
+                        // sound.play(roomMap.get("Resources/sound/08.wav"), true, 0);
+
+                        // Custom sound based on object
+//                        sound.play(roomMap.get("sound"), true, 0);
+
                     }
+
+//                    clip.start();
                 }
-            }
+
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -333,12 +347,12 @@ class GameMap {
 
     public void removeItems(String dropItem) {
         try{
-
-
+            if(getInventory().contains(dropItem)){
+                inventory.remove(dropItem);
+            }
+            else{ System.out.println("You don't have that item!");}
         }catch (Exception e){
-
         }
-
     }
 
-    }
+}

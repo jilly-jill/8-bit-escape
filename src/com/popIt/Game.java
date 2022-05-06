@@ -4,19 +4,7 @@ import java.io.IOException;
 import java.util.*;
 import com.popIt.design.*;
 
-/* TODO: Resident Evil mini-game - Hallway - Walkie Talkie:
-    If user gets walkie talkie, iterate through inventory once item is set
-        if user has walkie talkie, have walkie talkie print 'message' associated w/ json object
-        once message is printed, pop walkie-talkie from user inventory
-    ie:
-        get(item)
-        if player.getInventory.matches["walkie talkie"]{
-            print(however we call the parsed json - walkie talkie -> message)
-            remove item from json (need to see parse docs before working out logic)
-        else{.....}
-
-
- */
+import javax.sound.sampled.Clip;
 public class Game {
     private SoundPlayer sound = new SoundPlayer();
     private final Player player = new Player();
@@ -26,6 +14,10 @@ public class Game {
     private boolean isOver;
     private boolean endGamePlay;
     private boolean checkWin;
+    private boolean isBoss;
+    private Clip openSound = sound.play("Resources/sound/8-bit-audio.wav", true, 0);
+    private boolean beatMiniGame;
+    private ArrayList<String> winConditions = new ArrayList<>();
 
 
     public boolean isOver() {
@@ -52,23 +44,54 @@ public class Game {
         this.checkWin = checkWin;
     }
 
-    public void execute() {
+    public boolean isBoss() {
+        return isBoss;
+    }
+
+    public void setBoss(boolean boss) {
+        isBoss = boss;
+    }
+
+    public boolean beatMiniGame() {
+        return beatMiniGame;
+    }
+
+    public void setBeatMiniGame(boolean beatMiniGame) {
+        this.beatMiniGame = beatMiniGame;
+    }
+
+
+    public ArrayList<String> getWinConditions() {
+        return winConditions;
+    }
+
+    public void setWinConditions(ArrayList<String> winConditions) {
+        this.winConditions = winConditions;
+    }
+
+    public void execute()  {
         System.out.println("Executing game...");
         welcome();
+
         while (!isOver()) {
             try {
+
                 while (!isEndGamePlay()) {
                     try {
                         gamePlay();
                         if (isOver()) {
                             break;
                         }
+
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    System.out.println("game is over= " + isOver());
-                    System.out.println("end game play= " + isEndGamePlay());
+//                    System.out.println("game is over= " + isOver());
+//                    System.out.println("end game play= " + isEndGamePlay());
                 }
+
+
                 if (isEndGamePlay()) {
                     setEndGamePlay(false);
                 }
@@ -81,7 +104,6 @@ public class Game {
 
     public void welcome() {
 
-
         getSplashTheme();
         getOpening();
         getUsername();
@@ -91,11 +113,12 @@ public class Game {
 
     private void getSplashTheme() {
         ascii.getText("text/splash.txt");
+        openSound.start();
     }
 
     private void getOpening() {
         ascii.getText("text/opening.txt");
-        sound.makeSound("Resources/sound/CantinaBand60.wav");
+
     }
 
     private void getUsername() {
@@ -107,6 +130,7 @@ public class Game {
                 if (username.matches("[a-zA-Z]{2,15}")) {
                     player.setUsername(username.substring(0, 1).toUpperCase() + username.substring(1).toLowerCase());
                     validInput = true;
+
                 } else {
                     System.out.println(
                             "Please enter a valid user name between 2 and 15 characters (numbers not allowed)");
@@ -148,7 +172,6 @@ public class Game {
         return checkWin;
     }
 
-
     private void clearScreen() {
         try {
             if (System.getProperty("os.name").contains("Windows")) {
@@ -161,23 +184,86 @@ public class Game {
         }
     }
 
+    private Boolean miniGameCheck() {
+        while (gameMap.getMiniGame().equals(true)) {
+            bossFight();
+            //check for items -> if in inventory -> retrieve from value CONTAINS  -> remove items used to build CONTAINS
+            if (gameMap.getInventory().contains("bottle") && gameMap.getInventory().contains("lighter") && gameMap.getInventory().contains("bandages")) {
+                System.out.println("YOU HAVE USED THE BOTTLE, LIGHTER, AND BANDAGES TO CREATE A MOLOTOV COCKTAIL.\nBUILDING REQUIRES 1-TURN.\n BE SURE TO CHECK YOUR INVENTORY ON YOUR NEXT TURN!\n\n> ");
+                gameMap.retrieveItems("molotov-cocktail");
+                gameMap.removeItems("bottle");
+                gameMap.removeItems("lighter");
+                gameMap.removeItems("bandages");
+                break;
+            }
+            if (gameMap.getInventory().contains("rusty-shotgun") && gameMap.getInventory().contains("shotgun-shells")) {
+                System.out.println("YOU HAVE LOADED THE SHOTGUN SHELLS INTO THE RUSTY SHOTGUN.\n" +
+                        "\nYOU ARE LOADING THE SHOTGUN.\n LOADING REQUIRES 1-TURN.\n BE SURE TO CHECK YOUR INVENTORY ON YOUR NEXT TURN!\n\n> ");
+                gameMap.retrieveItems("loaded-shotgun");
+                gameMap.removeItems("rusty-shotgun");
+                gameMap.removeItems("shotgun-shells");
+                break;
+            } else {
+                gameMap.setMiniGame(true);
+                return gameMap.getMiniGame();
+            }
+
+        }
+        return gameMap.getMiniGame();
+    }
+    private int bossFight() {
+        int number = randomize();
+        while (gameMap.getMiniGame().equals(true)) {
+            if (number == 2) {
+                setBoss(true);
+                if (gameMap.getInventory().contains("molotov-cocktail")) {
+                    gameMap.setCurrentRoom("corridor13");
+                    setBoss(false);
+                    gameMap.setMiniGame(false);
+                    setBeatMiniGame(true);
+                    gameMap.removeItems("molotov-cocktail");
+                }
+                if (gameMap.getInventory().contains("loaded-shotgun")) {
+                    ascii.getText("text/both.txt");
+                    gameMap.removeItems("loaded-shotgun");
+//                } else {
+//                        ascii.getText("text/both.txt");
+//                        gameMap.removeItems("molotov-cocktail");
+//                        gameMap.retrieveItems("token");
+//                        gameMap.getRoomDesc();
+//                }
+                } else {
+                    player.setLives(player.getLives() - 1);
+                    ascii.getText("text/notnem.txt");
+                    setBoss(false);
+                }
+            }
+            return player.getLives();
+
+
+        }
+        return player.getLives();
+
+    }
+
+
+
+
     /*JS - 05/03 - Randomize function generates number 1-8,
     if number is >= 1 an ascii image of a ghost appears and player lives are set- 1
     player.getLives() is returned with current value
     Code checked, sout remains if you want to check generated digits and verify logic works*/
     private int randomize() {
-        double digit = Math.random() * 8;
-        if(digit <= 2 && gameMap.getCurrentRoom().matches("zombiesandexplosions|start|hall|infirmary|library|kitchen|basement")) {
-            ascii.getText("text/notnem.txt");
-            player.setLives(player.getLives() -1);
-            return player.getLives();
-        }else if(digit <= 2) {
-            ascii.getText("text/ghost.txt");
-            player.setLives(player.getLives() -1);
-            System.out.println("NOTNEMESIS APPEARS! YOU ARE ");
-            return player.getLives();
+        double digit = Math.random() * 10;
+        System.out.println(digit);
+        int number;
+        if(digit >= 7){
+            number = 2;
         }
-        return player.getLives();
+        else {
+            number = 1;
+        }
+        return number;
     }
 
     /*JS - 05/03 - if the current room contains "trap" - ascii.ghost generates ghost image and player loses 1 life
@@ -198,11 +284,16 @@ public class Game {
 
     private void gamePlay() {
         player.setLives(5);
-        gameMap.setCurrentRoom("start");
+        gameMap.setCurrentRoom("corridor11");
+        //Clip themeSong = sound.play("Resources/sound/CantinaBand60.wav", true, 0);
+        openSound.stop();
 
         while (true) {
+            System.out.println(beatMiniGame());
             clearScreen();
             showStatus();
+            miniGameCheck();
+//            bossFight();
 
             String move = "";
             while (move.equals("")) {
@@ -210,29 +301,30 @@ public class Game {
                 move = scanner.nextLine().toLowerCase();
             }
             String[] moveArray = move.split(" ");
+
             if (moveArray[0].equals("go")) {
                 if (moveArray[1].equals(gameMap.getMap(moveArray[1])))
                     gameMap.setCurrentRoom(gameMap.getCurrentRoom());
-            }
-            else if (moveArray[0].equals("look")) {
+            } else if (moveArray[0].equals("look")) {
                 if (moveArray[1].equals(gameMap.getCurrentRoom())) {
                     gameMap.lookRoomInfo();
                 } else if (moveArray[1].equals("items")) {
                     gameMap.itemInfo();
                 }
-            } else if (moveArray[0].equals("get")) {
+            } else if (moveArray[0].matches("get|grab")) {
                 gameMap.retrieveItems(moveArray[1]);
 
             } else if (moveArray[0].matches("drop|remove")) {
-                // gameMap.removeItems(moveArray[1]);
-            }else if (moveArray[0].equals("use")) {
+                gameMap.removeItems(moveArray[1]);
+            } else if (moveArray[0].equals("use")) {
                 if (moveArray[1].equals("adrenaline") && gameMap.getInventory().contains("adrenaline")){
                     player.setLives(player.getLives() +1);
-                    // gameMap.removeItems(moveArray[1]);
+                    gameMap.removeItems(moveArray[1]);
                 }
-            }
-
-            else if (move.matches("show menu|menu")) {
+                else {
+                    System.out.println("You can't use that item!");
+                }
+            } else if (move.matches("show menu|menu")) {
                 getMenu();
                 String input = scanner.nextLine().toLowerCase();
                 if (input.matches("q|quit")) {
@@ -252,13 +344,24 @@ public class Game {
                 if (input.matches("c|continue|")) {
                     System.out.println("continuing game");
                 }
+
+                if(input.matches("p|play")){
+                    System.out.println("Music on");
+                    //themeSong.start();
+                }
+
+                if(input.matches("s|stop")){
+                    System.out.println("Music off");
+                    //themeSong.stop();
+
+                }
+
             }
             else {
-                System.out.println("Please select a valid command");
+                System.out.println("Command not recognized");
             }
 
             trap();
-            randomize();
             checkWin();
             if (checkWin) {
                 setOver(true);
@@ -267,3 +370,5 @@ public class Game {
         }
     }
 }
+
+
