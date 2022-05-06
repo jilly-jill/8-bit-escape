@@ -28,7 +28,7 @@ public class Game {
     private boolean isOver;
     private boolean endGamePlay;
     private boolean checkWin;
-    private final Clip openSound = sound.play("Resources/sound/StarWars60.wav", true, 0);
+    private final Clip openSound = sound.play("sound/StarWars60.wav", true, 0);
 
 
     public boolean isOver() {
@@ -206,10 +206,9 @@ public class Game {
 
     private void gamePlay() {
         player.setLives(5);
-
         gameMap.setCurrentRoom("explosionsandzombies");
         openSound.stop();
-        Clip themeSong = sound.play("Resources/sound/CantinaBand60.wav", true, 0);
+        Clip themeSong = sound.play("sound/CantinaBand60.wav", true, 0);
         while (true) {
             clearScreen();
             showStatus();

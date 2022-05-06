@@ -1,12 +1,16 @@
 package com.popIt;
 
 import javax.sound.sampled.*;
-import java.io.File;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+
 
 class SoundPlayer {
 
+private ReadFile readFile = new ReadFile();
+
     public Clip play(String wavName, Boolean playAll, int playLengthInMilSec){
-        File sound = new File(wavName);
+        InputStream sound = new BufferedInputStream(readFile.getFileFromResourceAsStream(wavName, GameMap.class));
         Clip clip = null;
 
         try{
