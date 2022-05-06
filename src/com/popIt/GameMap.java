@@ -6,8 +6,11 @@ import com.popIt.design.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
+
 class GameMap {
     // Global Variables
+    private final static String step1 = "Resources/sound/footStep1.wav";
+    private final static String step2 = "Resources/sound/footStep2.wav";
     private JSONParser parser = new JSONParser();
     private ReadFile readFile = new ReadFile();
     private Ascii ascii = new Ascii();
@@ -28,7 +31,7 @@ class GameMap {
     private final int timer = 5000;
     private Boolean isMonster = false;
     private JSONObject jsonObject;
-
+    private SoundPlayer sound = new SoundPlayer();
 
     // Getters and Setters
     public String getCurrentRoom() {
@@ -183,6 +186,12 @@ class GameMap {
                     if (room.toString().equals(getCurrentRoom())) {
                         // set that room key value of the key (direction) to the currentRoom EX: if "north" in "start" then assign "north"'s value to currentRoom
                         setCurrentRoom(roomMap.get(direction));
+                        for(int i = 0; i < 3; i++) {
+                            sound.play(step1, true, 0);
+                            Thread.sleep(0200);
+                            sound.play(step2, true, 0);
+                            Thread.sleep(0200);
+                        }
                         if (getCurrentRoom() != null) {
 //                            System.out.println("YOU ARE NOW IN " + getCurrentRoom());
                         }
@@ -309,6 +318,7 @@ class GameMap {
     }
 
     public void retrieveItems(String retrieve) {
+
         try {
             setJsonObject(createJson());
             // move jsonObject into a hashmap (to use built-in methods to move data)
@@ -320,10 +330,15 @@ class GameMap {
                     // if the items value contains movearray[1], then add movearray[1] to the inventory
                     if(roomMap.get("items").contains(retrieve)) {
                         inventory.add(retrieve);
+
+                        // Custom sound based on object
+                        sound.play(roomMap.get("sound"), true, 0);
+
                     }
                     if (!roomMap.get("items").contains(retrieve)) {
                         System.out.println("That item is not here.");
                     }
+//                    clip.start();
                 }
             }
         }catch(Exception e){

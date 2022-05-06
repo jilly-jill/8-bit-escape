@@ -5,7 +5,7 @@ import java.io.File;
 
 class SoundPlayer {
 
-    public Clip play(String wavName, Boolean playAll, int milSec){
+    public Clip play(String wavName, Boolean playAll, int playLengthInMilSec){
         File sound = new File(wavName);
         Clip clip = null;
 
@@ -15,7 +15,7 @@ class SoundPlayer {
             clip.start();
 
             if(!playAll){
-                Thread.sleep(milSec);
+                Thread.sleep(playLengthInMilSec);
                 clip.stop();
             }
 

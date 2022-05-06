@@ -10,7 +10,9 @@
   |     |  To Move: GO [direction]                                       |       |
   |     |	 								                             |       |
   |     |  To Pick-Up an Item: GET [item]				                 |       |
-  |     |  						 			                             |       |
+  |     |                                                                |       |
+  |     |  To Drop an Item: DROP [item]                                  |       |
+  |		|				 			                                     |       |
   |     |  To Use an Item: USE [item]				                     |	     |
   |	    |	  							                                 |	     |
   |	    |  To Interact with a Character: ENGAGE [character]	             |	     |
