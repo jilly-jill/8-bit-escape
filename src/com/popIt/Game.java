@@ -6,23 +6,6 @@ import com.popIt.design.*;
 
 import javax.sound.sampled.Clip;
 
-/* TODO: Resident Evil mini-game - Hallway - Walkie Talkie:
-    If user gets walkie talkie, iterate through inventory once item is set
-        if user has walkie talkie, have walkie talkie print 'message' associated w/ json object
-        once message is printed, pop walkie-talkie from user inventory
-    ie:
-        get(item)
-        if player.getInventory.matches["walkie talkie"]{
-            print(however we call the parsed json - walkie talkie -> message)
-            remove item from json (need to see parse docs before working out logic)
-        else{.....}
-
-TODO: record voice for narration
-TODO: implement flashlight function w/ NPC interaction
-TODO: add child drawing to items in zombies -> library -- if player picks up drawing unlock bonus/ascii art
-
- */
-
 public class Game {
     private SoundPlayer sound = new SoundPlayer();
     private final Player player = new Player();
@@ -34,8 +17,10 @@ public class Game {
     private boolean checkWin;
     private boolean hasFlashlight;
     private boolean isBoss;
-//    private Clip openSound = sound.play("Resources/sound/opening_narration.wav", true, 0);
+    private Clip openSound = sound.play("sound/opening_narration.wav", true, 0);
     private boolean beatMiniGame = false;
+    private final int asciiTimer = 3000;
+    private final int introTimer = 5000;
 
 
 
@@ -62,7 +47,6 @@ public class Game {
     public void setCheckWin(boolean checkWin) {
         this.checkWin = checkWin;
     }
-
 
     public boolean isBoss() {
         return isBoss;
@@ -107,11 +91,7 @@ public class Game {
                         e.printStackTrace();
                     }
 
-//                    System.out.println("game is over= " + isOver());
-//                    System.out.println("end game play= " + isEndGamePlay());
-
                 }
-
 
                 if (isEndGamePlay()) {
                     setEndGamePlay(false);
@@ -134,12 +114,20 @@ public class Game {
 
     private void getSplashTheme() {
         ascii.getText("text/splash.txt");
-        //openSound.start();
+        try {
+            Thread.sleep(introTimer);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void getOpening() {
         ascii.getText("text/opening.txt");
-
+        try {
+            Thread.sleep(introTimer);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void getUsername() {
@@ -236,13 +224,12 @@ public class Game {
         completed 05/07
         Called in: gamePlay()
      */
-    private int bossFight() {
+    private int bossFight() throws InterruptedException {
         int number = randomize();
         //while gamemap -> zombies.json
         while (gameMap.getMiniGame().equals(true)) {
             miniGameCheck();
             if (gameMap.getInventory().contains("walkie-talkie")){
-                System.out.println("play walkie talkie message");
                 gameMap.removeItems("walkie-talkie");
             }
             //if randomizer returns 2 -> BOSS BATTLE
@@ -252,38 +239,72 @@ public class Game {
                 if (gameMap.getInventory().contains("molotov-cocktail") || gameMap.getInventory().contains("loaded-shotgun")
                         || gameMap.getInventory().contains("molotov-cocktail") && gameMap.getInventory().contains("loaded-shotgun")) {
                     setBoss(false);
-                    //call Check.getZombieItems & iterate over to remove zombie specific items
-                    for(String item : Check.getZombieItems()){
-                        if(gameMap.getInventory().contains(item)){
-                        gameMap.removeItems(item);
-                    }}
                     //add token to player inventory so they meet one of the game win conditions
-                    if (!gameMap.getInventory().contains("token")){
-                        gameMap.retrieveItems("token");
-                    }
-                    //return player from mini-game to corridor 13 in main map
-                    gameMap.setCurrentRoom("corridor13");
-                    //return gamemap to main map
-                    gameMap.setMiniGame(false);
+
                     //if player has both items -> both items ascii art -> remove both -> return lives
                     if (gameMap.getInventory().contains("molotov-cocktail") && gameMap.getInventory().contains("loaded-shotgun")) {
                         ascii.getText("text/both.txt");
+                        Thread.sleep(asciiTimer);
+                        //call Check.getZombieItems & iterate over to remove zombie specific items
+                        for (String item : Check.getZombieItems()) {
+                            if (gameMap.getInventory().contains(item)) {
+                                gameMap.removeItems(item);
+                               // if(gameMap.)
+                                //if item is not in room return inventory
+                            }
+                        }
+                        if (!gameMap.getInventory().contains("token")) {
+                            gameMap.retrieveItems("token");
+                            //return player from mini-game to corridor 13 in main map
+                            gameMap.setCurrentRoom("corridor13");
+                            //return gamemap to main map
+                            gameMap.setMiniGame(false);
+                        }
                         return player.getLives();
                     }
                     //if player has molotov-cocktail -> item ascii art -> remove  -> return lives
                     if (gameMap.getInventory().contains("molotov-cocktail")) {
                         ascii.getText("text/molotov.txt");
+                        Thread.sleep(asciiTimer);
+                        for (String item : Check.getZombieItems()) {
+                            if (gameMap.getInventory().contains(item)) {
+                                gameMap.removeItems(item);
+                            }
+                        }
+                        if (!gameMap.getInventory().contains("token")) {
+                            //call Check.getZombieItems & iterate over to remove zombie specific items
+                            gameMap.retrieveItems("token");
+                            //return player from mini-game to corridor 13 in main map
+                            gameMap.setCurrentRoom("corridor13");
+                            //return gamemap to main map
+                            gameMap.setMiniGame(false);
+                        }
                         return player.getLives();
                     }
                     //if player has loaded-shotgun -> item ascii art -> remove  -> return lives
                     if (gameMap.getInventory().contains("loaded-shotgun")) {
+                        for (String item : Check.getZombieItems()) {
+                            Thread.sleep(asciiTimer);
+                            if (gameMap.getInventory().contains(item)) {
+                                gameMap.removeItems(item);
+                            }
+                        }
+                        if (!gameMap.getInventory().contains("token")) {
+                            gameMap.retrieveItems("token");
+                            //return player from mini-game to corridor 13 in main map
+                            gameMap.setCurrentRoom("corridor13");
+                            //return gamemap to main map
+                            gameMap.setMiniGame(false);
+                        }
                         ascii.getText("text/shotgun.txt");
+                        Thread.sleep(asciiTimer);
                         return player.getLives();
                     }
                 } else {
                     //player loses a life -> attacked by notnemesis -> boss battle over -> still in minigame
                     player.setLives(player.getLives() - 1);
                     ascii.getText("text/notnem.txt");
+                    Thread.sleep(asciiTimer);
                     setBoss(false);
                     return player.getLives();
                 }
@@ -294,26 +315,13 @@ public class Game {
         return player.getLives();
         }
 
-    //JS - plays message when walkie-talkie is picked up, detailing instructions -
-    // dropped once message is complete.
-    private void walkieTalkie() {
-        Clip walkieTalkieMessage = sound.play("sound/walkie_talkie.wav", true, 0);
-        ArrayList<String> resultArray = gameMap.getInventory();
-        if (resultArray.contains("walkie-talkie")) {
-            walkieTalkieMessage.start();
-            System.out.println("WALKIE TALKIE PLAYS");
-            gameMap.removeItems("walkie-talkie");
-        }
-    }
-
     /*JS - 05/03 - random number 1-10, if 8+ int 2 returned else int 1
     Called In: bossFight()
      */
     private int randomize() {
         double digit = Math.random() * 10;
-        System.out.println(digit);
         int number;
-        if (digit >= 5) {
+        if (digit >= 7) {
             number = 2;
         } else {
             number = 1;
@@ -372,14 +380,13 @@ public class Game {
         }
         return resultArray;
     }
-
-    private void gamePlay() {
+    private void gamePlay() throws InterruptedException {
         player.setLives(5);
         Check.zombieList();
 
-        gameMap.setCurrentRoom("corridor11");
-        //Clip themeSong = sound.play("Resources/sound/CantinaBand60.wav", true, 0);
-        //  openSound.stop();
+        gameMap.setCurrentRoom("start");
+        openSound.stop();
+        Clip themeSong = sound.play("sound/8-bit-audio.wav", true, 0);
 
         while (true) {
             clearScreen();
@@ -431,6 +438,7 @@ public class Game {
                     }
                 }
                 if (input.matches("r|restart|")) {
+                    themeSong.stop();
                     setEndGamePlay(true);
                     break;
                 }
@@ -440,12 +448,12 @@ public class Game {
 
                 if (input.matches("p|play")) {
                     System.out.println("Music on");
-                    //themeSong.start();
+                    themeSong.start();
                 }
 
                 if (input.matches("s|stop")) {
                     System.out.println("Music off");
-                    //themeSong.stop();
+                    themeSong.stop();
                 }
             } else {
                 System.out.println("Command not recognized");
@@ -463,9 +471,4 @@ public class Game {
     }
 
 
-// OPEN song
-// Theme song
-// narration & theme song will toggle opposite of each other
-    // sound fx for actions and menu selection
-// ending and winning song/sound
 

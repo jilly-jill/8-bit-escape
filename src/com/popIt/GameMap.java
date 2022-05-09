@@ -195,7 +195,7 @@ class GameMap {
                     if (room.toString().equals(getCurrentRoom())) {
                         // set that room key value of the key (direction) to the currentRoom EX: if "north" in "start" then assign "north"'s value to currentRoom
                         setCurrentRoom(roomMap.get(direction));
-                        for(int i = 0; i < 3; i++) {
+                        for(int i = 0; i < 2; i++) {
 
                             sound.play(step1, true, 0);
                             Thread.sleep(0200);
@@ -349,22 +349,19 @@ class GameMap {
                     // if the items value contains movearray[1], then add movearray[1] to the inventory
                     if(roomMap.get("items").contains(itemName)) {
                         inventory.add(itemName);
-
                         // Custom sound based on object
                         sound.play(roomMap.get("sound"), true, 0);
-
                     }
                     else if (!roomMap.get("items").contains(itemName)) {
                         System.out.println("That item is not here.");
                     }
 
-                    else if (roomMap.get("combine").contains(itemName)){
+                    if (roomMap.get("combine").contains(itemName)){
                         inventory.add(itemName);
                     }
                     else if(!roomMap.get("combine").contains(itemName)){
                         getInventory();
                     }
-
                     else if (roomMap.get("npcitem").contains(itemName)){
                         inventory.add(itemName);
                     }

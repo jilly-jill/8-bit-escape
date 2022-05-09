@@ -28,8 +28,8 @@
 
 You grab the Molotov Cocktail, carefully flipping open the Zippo and lighting the bandage.
 You throw it at the massive creature.
-NOTNEMESIS Screams while being engulfed by flames.
-NOTNEMESIS is vanquished.
+ADVERSARY Screams while being engulfed by flames.
+ADVERSARY is vanquished.
 
 ----------
 
