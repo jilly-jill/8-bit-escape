@@ -7,7 +7,7 @@ import java.io.InputStream;
 
 class SoundPlayer {
 
-private ReadFile readFile = new ReadFile();
+    private ReadFile readFile = new ReadFile();
 
     public Clip play(String wavName, Boolean playAll, int playLengthInMilSec){
         InputStream sound = new BufferedInputStream(readFile.getFileFromResourceAsStream(wavName, GameMap.class));
