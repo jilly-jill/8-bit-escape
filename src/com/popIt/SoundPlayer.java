@@ -1,12 +1,16 @@
 package com.popIt;
 
 import javax.sound.sampled.*;
-import java.io.File;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+
 
 class SoundPlayer {
 
-    public Clip play(String wavName, Boolean playAll, int milSec){
-        File sound = new File(wavName);
+    private ReadFile readFile = new ReadFile();
+
+    public Clip play(String wavName, Boolean playAll, int playLengthInMilSec){
+        InputStream sound = new BufferedInputStream(readFile.getFileFromResourceAsStream(wavName, GameMap.class));
         Clip clip = null;
 
         try{
@@ -15,7 +19,7 @@ class SoundPlayer {
             clip.start();
 
             if(!playAll){
-                Thread.sleep(milSec);
+                Thread.sleep(playLengthInMilSec);
                 clip.stop();
             }
 

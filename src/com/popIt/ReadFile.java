@@ -2,6 +2,7 @@ package com.popIt;
 
 import java.io.InputStream;
 
+
 public class ReadFile {
 
     public InputStream getFileFromResourceAsStream(String fileName, Class aClass) {

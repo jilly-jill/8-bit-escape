@@ -6,9 +6,10 @@ import com.popIt.design.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
-
 class GameMap {
     // Global Variables
+    private final static String step1 = "sound/footStep1.wav";
+    private final static String step2 = "sound/footStep2.wav";
     private JSONParser parser = new JSONParser();
     private ReadFile readFile = new ReadFile();
     private Ascii ascii = new Ascii();
@@ -20,6 +21,7 @@ class GameMap {
     private final String zombie = "json/zombies.json";
     private String itemDescOne;
     private String itemDescTwo;
+    private String itemDescThree;
     private String itemList;
     private ArrayList inventory = new ArrayList();
     private Object obj;
@@ -27,7 +29,7 @@ class GameMap {
     private String items;
     private String roomId;
     private final int timer = 5000;
-    private Boolean isMonster = false;
+    private Boolean isNpc;
     private JSONObject jsonObject;
     private SoundPlayer sound = new SoundPlayer();
 
@@ -76,6 +78,14 @@ class GameMap {
         this.itemDescTwo = itemDescTwo;
     }
 
+    public String getItemDescThree() {
+        return itemDescThree;
+    }
+
+    public void setItemDescThree(String itemDescThree) {
+        this.itemDescThree = itemDescThree;
+    }
+
     public String getItemList() {
         return itemList;
     }
@@ -120,12 +130,12 @@ class GameMap {
         this.roomId = roomId;
     }
 
-    public Boolean getMonster() {
-        return isMonster;
+    public Boolean getIsNpc() {
+        return isNpc;
     }
 
-    public void setMonster(Boolean monster) {
-        isMonster = monster;
+    public void setIsNpc(Boolean npc) {
+        isNpc = npc;
     }
 
     public JSONObject getJsonObject() {
@@ -143,7 +153,7 @@ class GameMap {
 
     // reads json file according to the room the player is in
     private JSONObject createJson() throws IOException, ParseException {
-
+        //private Object obj;
         InputStream inputTestJSON;
         // if current room is zombies then read zombie.json
         if (getCurrentRoom().equals("explosionsandzombies")) {
@@ -169,11 +179,12 @@ class GameMap {
     public String getMap(String direction) {
         String result = "";
         String previousRoom = "";
+        InputStream inputWavSound;
 
         while (true) {
             try {
                 // createJson object
-                setJsonObject((JSONObject) createJson());
+                setJsonObject(createJson());
 
                 // move jsonObject into a hashmap (to use built-in methods to move data)
                 HashMap<String, String> roomMap = (HashMap<String, String>) getJsonObject().get(getCurrentRoom());
@@ -184,6 +195,14 @@ class GameMap {
                     if (room.toString().equals(getCurrentRoom())) {
                         // set that room key value of the key (direction) to the currentRoom EX: if "north" in "start" then assign "north"'s value to currentRoom
                         setCurrentRoom(roomMap.get(direction));
+                        for(int i = 0; i < 3; i++) {
+
+                            sound.play(step1, true, 0);
+                            Thread.sleep(0200);
+                            sound.play(step2, true, 0);
+
+                            Thread.sleep(0200);
+                        }
                         if (getCurrentRoom() != null) {
 //                            System.out.println("YOU ARE NOW IN " + getCurrentRoom());
                         }
@@ -232,7 +251,12 @@ class GameMap {
                     setRoomId(roomMap.get("id"));
                     String pathName = "text/" + getRoomId() + ".txt";
                     ascii.getText(pathName);
-                    break;
+                    if(roomMap.get("npc") != null && roomMap.get("npc").contains("true")){
+                        setIsNpc(true);
+                    }else{
+                        setIsNpc(false);
+                    }
+                   break;
                 }
             }
             System.out.println(getRoomDesc());
@@ -266,10 +290,12 @@ class GameMap {
             e.printStackTrace();
         }
     }
+
     public void itemInfo() {
         setItemDesc(" ");
         setItemDescOne(" ");
         setItemDescTwo(" ");
+        setItemDescThree(" ");
         setItemList(" ");
         try {
             // create jsonObject
@@ -281,17 +307,20 @@ class GameMap {
                 // if the room key equals to the currentRoom
                 if (room.toString().equals(getCurrentRoom())) {
                     if (roomMap.get("items") != null) {
-                        setItemList(roomMap.get("items"));
-                    }
-                    if (roomMap.get("lookitem") != null) {
-                        setItemDesc(roomMap.get("lookitem"));
-                    }
-                    if (roomMap.get("lookitemone") != null) {
-                        setItemDescOne(roomMap.get("lookitemone"));
-                    }
-                    if (roomMap.get("lookitemtwo") != null) {
-                        setItemDescTwo(roomMap.get("lookitemtwo"));
-                        break;
+                        if (roomMap.get("items") != null) {
+                            setItemList(roomMap.get("items"));
+                        }
+                        if (roomMap.get("lookitem") != null) {
+                            setItemDesc(roomMap.get("lookitem"));
+                        }
+                        if (roomMap.get("lookitemone") != null) {
+                            setItemDescOne(roomMap.get("lookitemone"));
+                        }
+                        if (roomMap.get("lookitemtwo") != null) {
+                            setItemDesc(roomMap.get("lookitemtwo"));
+
+                            break;
+                        }
                     } else {
                         System.out.println("There are no items in here!");
                     }
@@ -307,7 +336,7 @@ class GameMap {
         }
     }
 
-    public void retrieveItems(String retrieve) {
+    public void retrieveItems(String itemName) {
 
         try {
             setJsonObject(createJson());
@@ -318,28 +347,33 @@ class GameMap {
                 // if the room key equals to the currentRoom we will be getting items from
                 if (room.toString().equals(getCurrentRoom())) {
                     // if the items value contains movearray[1], then add movearray[1] to the inventory
-                    if(roomMap.get("items") != null){
-                        if(roomMap.get("items").contains(retrieve)){
-                                inventory.add(retrieve);}
-                    }else if (roomMap.get("combine") != null){
-                        if(roomMap.get("combine").contains(retrieve)){
-                            inventory.add(retrieve);}
-                        }
-                    else{
+                    if(roomMap.get("items").contains(itemName)) {
+                        inventory.add(itemName);
+
+                        // Custom sound based on object
+                        sound.play(roomMap.get("sound"), true, 0);
+
+                    }
+                    else if (!roomMap.get("items").contains(itemName)) {
                         System.out.println("That item is not here.");
                     }
 
-                        // Universal sound
-                        // sound.play(roomMap.get("Resources/sound/08.wav"), true, 0);
-
-                        // Custom sound based on object
-//                        sound.play(roomMap.get("sound"), true, 0);
-
+                    else if (roomMap.get("combine").contains(itemName)){
+                        inventory.add(itemName);
+                    }
+                    else if(!roomMap.get("combine").contains(itemName)){
+                        getInventory();
                     }
 
+                    else if (roomMap.get("npcitem").contains(itemName)){
+                        inventory.add(itemName);
+                    }
+                    else if(!roomMap.get("npcitem").contains(itemName)){
+                        getInventory();
+                    }
 //                    clip.start();
                 }
-
+            }
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -347,12 +381,15 @@ class GameMap {
 
     public void removeItems(String dropItem) {
         try{
-            if(getInventory().contains(dropItem)){
+            if(!getInventory().contains(dropItem) && !getMiniGame()) {
+                getInventory();
+            } else if(getInventory().contains(dropItem)){
                 inventory.remove(dropItem);
             }
             else{ System.out.println("You don't have that item!");}
         }catch (Exception e){
         }
     }
+
 
 }

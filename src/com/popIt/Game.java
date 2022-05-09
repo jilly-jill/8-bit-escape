@@ -5,6 +5,24 @@ import java.util.*;
 import com.popIt.design.*;
 
 import javax.sound.sampled.Clip;
+
+/* TODO: Resident Evil mini-game - Hallway - Walkie Talkie:
+    If user gets walkie talkie, iterate through inventory once item is set
+        if user has walkie talkie, have walkie talkie print 'message' associated w/ json object
+        once message is printed, pop walkie-talkie from user inventory
+    ie:
+        get(item)
+        if player.getInventory.matches["walkie talkie"]{
+            print(however we call the parsed json - walkie talkie -> message)
+            remove item from json (need to see parse docs before working out logic)
+        else{.....}
+
+TODO: record voice for narration
+TODO: implement flashlight function w/ NPC interaction
+TODO: add child drawing to items in zombies -> library -- if player picks up drawing unlock bonus/ascii art
+
+ */
+
 public class Game {
     private SoundPlayer sound = new SoundPlayer();
     private final Player player = new Player();
@@ -14,10 +32,11 @@ public class Game {
     private boolean isOver;
     private boolean endGamePlay;
     private boolean checkWin;
+    private boolean hasFlashlight;
     private boolean isBoss;
-    private Clip openSound = sound.play("Resources/sound/8-bit-audio.wav", true, 0);
-    private boolean beatMiniGame;
-    private ArrayList<String> winConditions = new ArrayList<>();
+//    private Clip openSound = sound.play("Resources/sound/opening_narration.wav", true, 0);
+    private boolean beatMiniGame = false;
+
 
 
     public boolean isOver() {
@@ -44,6 +63,7 @@ public class Game {
         this.checkWin = checkWin;
     }
 
+
     public boolean isBoss() {
         return isBoss;
     }
@@ -60,16 +80,15 @@ public class Game {
         this.beatMiniGame = beatMiniGame;
     }
 
-
-    public ArrayList<String> getWinConditions() {
-        return winConditions;
+    public boolean isHasFlashlight() {
+        return hasFlashlight;
     }
 
-    public void setWinConditions(ArrayList<String> winConditions) {
-        this.winConditions = winConditions;
+    public void setHasFlashlight(boolean hasFlashlight) {
+        this.hasFlashlight = hasFlashlight;
     }
 
-    public void execute()  {
+    public void execute() {
         System.out.println("Executing game...");
         welcome();
 
@@ -87,8 +106,10 @@ public class Game {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
 //                    System.out.println("game is over= " + isOver());
 //                    System.out.println("end game play= " + isEndGamePlay());
+
                 }
 
 
@@ -113,7 +134,7 @@ public class Game {
 
     private void getSplashTheme() {
         ascii.getText("text/splash.txt");
-        openSound.start();
+        //openSound.start();
     }
 
     private void getOpening() {
@@ -148,25 +169,30 @@ public class Game {
 
     private void showStatus() {
         //show player and current room status
-        //TODO: get/set logic for items
         gameMap.roomInfo();
-        System.out.println( "\n ========== " + player.getUsername() + "'s Current Status ==========\n" +
+        System.out.println("\n ========== " + player.getUsername() + "'s Current Status ==========\n" +
                 "  Current Room: " + gameMap.getCurrentRoom() + "\n" +
                 "  Current Lives: " + player.getLives() + "\n" +
                 "  Current Inventory: " + gameMap.getInventory() + "\n" +
                 "========================================\n");
 
     }
-
+    /* JS - if player has token and is in maze center -> win
+    if player has 0 lives remaining -> lose
+    else set checkWin remains false
+    Called In: gamePlay()
+     */
     private boolean checkWin() {
         String currentRoom = gameMap.getCurrentRoom();
-        if (currentRoom.equals("mazecenter")) {
+        if (currentRoom.equals("mazecenter") && gameMap.getInventory().contains("token")) {
             checkWin = true;
-            ascii.getText("text/win.txt");;
-        }else if(player.getLives() < 1){
+            ascii.getText("text/win.txt");
+            ;
+        } else if (player.getLives() < 1) {
             checkWin = true;
-            ascii.getText("text/lose.txt");;
-        }else {
+            ascii.getText("text/lose.txt");
+            ;
+        } else {
             checkWin = false;
         }
         return checkWin;
@@ -184,89 +210,118 @@ public class Game {
         }
     }
 
-    private Boolean miniGameCheck() {
-        while (gameMap.getMiniGame().equals(true)) {
-            bossFight();
-            //check for items -> if in inventory -> retrieve from value CONTAINS  -> remove items used to build CONTAINS
-            if (gameMap.getInventory().contains("bottle") && gameMap.getInventory().contains("lighter") && gameMap.getInventory().contains("bandages")) {
-                System.out.println("YOU HAVE USED THE BOTTLE, LIGHTER, AND BANDAGES TO CREATE A MOLOTOV COCKTAIL.\nBUILDING REQUIRES 1-TURN.\n BE SURE TO CHECK YOUR INVENTORY ON YOUR NEXT TURN!\n\n> ");
-                gameMap.retrieveItems("molotov-cocktail");
-                gameMap.removeItems("bottle");
-                gameMap.removeItems("lighter");
-                gameMap.removeItems("bandages");
-                break;
-            }
-            if (gameMap.getInventory().contains("rusty-shotgun") && gameMap.getInventory().contains("shotgun-shells")) {
-                System.out.println("YOU HAVE LOADED THE SHOTGUN SHELLS INTO THE RUSTY SHOTGUN.\n" +
-                        "\nYOU ARE LOADING THE SHOTGUN.\n LOADING REQUIRES 1-TURN.\n BE SURE TO CHECK YOUR INVENTORY ON YOUR NEXT TURN!\n\n> ");
-                gameMap.retrieveItems("loaded-shotgun");
-                gameMap.removeItems("rusty-shotgun");
-                gameMap.removeItems("shotgun-shells");
-                break;
-            } else {
-                gameMap.setMiniGame(true);
-                return gameMap.getMiniGame();
-            }
-
+    /*JS - Checks inventory of player
+       If inventory has items that can be combined, they are combined and individual elements removed
+       Called In: bossFight()
+     */
+    private void miniGameCheck() {
+        //check for items -> if in inventory -> retrieve from value CONTAINS  -> remove items used to build CONTAINS
+        if (gameMap.getInventory().contains("bottle") && gameMap.getInventory().contains("lighter") && gameMap.getInventory().contains("bandages")) {
+            System.out.println("YOU HAVE USED THE BOTTLE, LIGHTER, AND BANDAGES TO CREATE A MOLOTOV COCKTAIL.\nBUILDING REQUIRES 1-TURN.\n BE SURE TO CHECK YOUR INVENTORY ON YOUR NEXT TURN!\n\n> ");
+            gameMap.retrieveItems("molotov-cocktail");
+            gameMap.removeItems("bottle");
+            gameMap.removeItems("lighter");
+            gameMap.removeItems("bandages");
         }
-        return gameMap.getMiniGame();
+        if (gameMap.getInventory().contains("rusty-shotgun") && gameMap.getInventory().contains("shotgun-shells")) {
+            System.out.println("YOU HAVE LOADED THE SHOTGUN SHELLS INTO THE RUSTY SHOTGUN.\n" +
+                    "\nYOU ARE LOADING THE SHOTGUN.\n LOADING REQUIRES 1-TURN.\n BE SURE TO CHECK YOUR INVENTORY ON YOUR NEXT TURN!\n\n> ");
+            gameMap.retrieveItems("loaded-shotgun");
+            gameMap.removeItems("rusty-shotgun");
+            gameMap.removeItems("shotgun-shells");
+        }
     }
+
+    /*JS - Core mini-game boss fight logic
+        completed 05/07
+        Called in: gamePlay()
+     */
     private int bossFight() {
         int number = randomize();
+        //while gamemap -> zombies.json
         while (gameMap.getMiniGame().equals(true)) {
+            miniGameCheck();
+            if (gameMap.getInventory().contains("walkie-talkie")){
+                System.out.println("play walkie talkie message");
+                gameMap.removeItems("walkie-talkie");
+            }
+            //if randomizer returns 2 -> BOSS BATTLE
             if (number == 2) {
                 setBoss(true);
-                if (gameMap.getInventory().contains("molotov-cocktail")) {
-                    gameMap.setCurrentRoom("corridor13");
+                //COND CHECK: if player has either molotov cocktail or loaded shotgun or BOTH
+                if (gameMap.getInventory().contains("molotov-cocktail") || gameMap.getInventory().contains("loaded-shotgun")
+                        || gameMap.getInventory().contains("molotov-cocktail") && gameMap.getInventory().contains("loaded-shotgun")) {
                     setBoss(false);
+                    //call Check.getZombieItems & iterate over to remove zombie specific items
+                    for(String item : Check.getZombieItems()){
+                        if(gameMap.getInventory().contains(item)){
+                        gameMap.removeItems(item);
+                    }}
+                    //add token to player inventory so they meet one of the game win conditions
+                    if (!gameMap.getInventory().contains("token")){
+                        gameMap.retrieveItems("token");
+                    }
+                    //return player from mini-game to corridor 13 in main map
+                    gameMap.setCurrentRoom("corridor13");
+                    //return gamemap to main map
                     gameMap.setMiniGame(false);
-                    setBeatMiniGame(true);
-                    gameMap.removeItems("molotov-cocktail");
-                }
-                if (gameMap.getInventory().contains("loaded-shotgun")) {
-                    ascii.getText("text/both.txt");
-                    gameMap.removeItems("loaded-shotgun");
-//                } else {
-//                        ascii.getText("text/both.txt");
-//                        gameMap.removeItems("molotov-cocktail");
-//                        gameMap.retrieveItems("token");
-//                        gameMap.getRoomDesc();
-//                }
+                    //if player has both items -> both items ascii art -> remove both -> return lives
+                    if (gameMap.getInventory().contains("molotov-cocktail") && gameMap.getInventory().contains("loaded-shotgun")) {
+                        ascii.getText("text/both.txt");
+                        return player.getLives();
+                    }
+                    //if player has molotov-cocktail -> item ascii art -> remove  -> return lives
+                    if (gameMap.getInventory().contains("molotov-cocktail")) {
+                        ascii.getText("text/molotov.txt");
+                        return player.getLives();
+                    }
+                    //if player has loaded-shotgun -> item ascii art -> remove  -> return lives
+                    if (gameMap.getInventory().contains("loaded-shotgun")) {
+                        ascii.getText("text/shotgun.txt");
+                        return player.getLives();
+                    }
                 } else {
+                    //player loses a life -> attacked by notnemesis -> boss battle over -> still in minigame
                     player.setLives(player.getLives() - 1);
                     ascii.getText("text/notnem.txt");
                     setBoss(false);
+                    return player.getLives();
                 }
             }
             return player.getLives();
 
-
         }
         return player.getLives();
+        }
 
+    //JS - plays message when walkie-talkie is picked up, detailing instructions -
+    // dropped once message is complete.
+    private void walkieTalkie() {
+        Clip walkieTalkieMessage = sound.play("sound/walkie_talkie.wav", true, 0);
+        ArrayList<String> resultArray = gameMap.getInventory();
+        if (resultArray.contains("walkie-talkie")) {
+            walkieTalkieMessage.start();
+            System.out.println("WALKIE TALKIE PLAYS");
+            gameMap.removeItems("walkie-talkie");
+        }
     }
 
-
-
-
-    /*JS - 05/03 - Randomize function generates number 1-8,
-    if number is >= 1 an ascii image of a ghost appears and player lives are set- 1
-    player.getLives() is returned with current value
-    Code checked, sout remains if you want to check generated digits and verify logic works*/
+    /*JS - 05/03 - random number 1-10, if 8+ int 2 returned else int 1
+    Called In: bossFight()
+     */
     private int randomize() {
         double digit = Math.random() * 10;
         System.out.println(digit);
         int number;
-        if(digit >= 7){
+        if (digit >= 5) {
             number = 2;
-        }
-        else {
+        } else {
             number = 1;
         }
         return number;
     }
-
     /*JS - 05/03 - if the current room contains "trap" - ascii.ghost generates ghost image and player loses 1 life
+     CALLED IN: gamePlay()
      */
     private int trap() {
         try {
@@ -280,20 +335,55 @@ public class Game {
         }
         return player.getLives();
     }
+    /* setHasFlashlight -> true ->
+    run randomize if > 5
+    NPC acts riddle -> player can answer or walk away -> if true receive flashlight
+    & set hasflashlight to false
+     */
 
+    private ArrayList<String> riddle() {
+        ArrayList<String> resultArray = gameMap.getInventory();
+        setHasFlashlight(true);
+        if (gameMap.getIsNpc() == true) {
+            int num = randomize();
+            if (num == 2 && !resultArray.contains("flashlight")) {
+                System.out.println("A Sphinx emerges from the shadows\n\nI have a question for you traveller\n" +
+                        "If you answer correctly, I may have something that can assist you. Would you like to play? [Y] or [N]");
+                String input = scanner.nextLine();
+                if (input.matches("Y|y|yes")) {
+                    System.out.println("What room do ghosts avoid?");
+                    String answer = scanner.nextLine();
+                    if (answer.matches("living room|livingroom|living-room")) {
+                        if(!resultArray.contains("flashlight")) {
+                            System.out.println("CORRECT! This flashlight may help you on your path.");
+                            resultArray.add("flashlight");
+                        } else {
+                            System.out.println("Too bad\nThe Sphinx disappears");
+                            setHasFlashlight(false);
+                        }
+                        return resultArray;
+                    } else {
+                        System.out.println("'Safe travels.'\nThe Sphinx disappears.");
+                        setHasFlashlight(false);
+                        return resultArray;
+                    }
+                }
+            }
+        }
+        return resultArray;
+    }
 
     private void gamePlay() {
         player.setLives(5);
+        Check.zombieList();
+
         gameMap.setCurrentRoom("corridor11");
         //Clip themeSong = sound.play("Resources/sound/CantinaBand60.wav", true, 0);
-        openSound.stop();
+        //  openSound.stop();
 
         while (true) {
-            System.out.println(beatMiniGame());
             clearScreen();
             showStatus();
-            miniGameCheck();
-//            bossFight();
 
             String move = "";
             while (move.equals("")) {
@@ -303,8 +393,11 @@ public class Game {
             String[] moveArray = move.split(" ");
 
             if (moveArray[0].equals("go")) {
-                if (moveArray[1].equals(gameMap.getMap(moveArray[1])))
+                if (moveArray[1].equals(gameMap.getMap(moveArray[1]))) {
                     gameMap.setCurrentRoom(gameMap.getCurrentRoom());
+
+                }
+
             } else if (moveArray[0].equals("look")) {
                 if (moveArray[1].equals(gameMap.getCurrentRoom())) {
                     gameMap.lookRoomInfo();
@@ -316,12 +409,12 @@ public class Game {
 
             } else if (moveArray[0].matches("drop|remove")) {
                 gameMap.removeItems(moveArray[1]);
+
             } else if (moveArray[0].equals("use")) {
-                if (moveArray[1].equals("adrenaline") && gameMap.getInventory().contains("adrenaline")){
-                    player.setLives(player.getLives() +1);
+                if (moveArray[1].equals("adrenaline") && gameMap.getInventory().contains("adrenaline")) {
+                    player.setLives(player.getLives() + 1);
                     gameMap.removeItems(moveArray[1]);
-                }
-                else {
+                } else {
                     System.out.println("You can't use that item!");
                 }
             } else if (move.matches("show menu|menu")) {
@@ -345,30 +438,34 @@ public class Game {
                     System.out.println("continuing game");
                 }
 
-                if(input.matches("p|play")){
+                if (input.matches("p|play")) {
                     System.out.println("Music on");
                     //themeSong.start();
                 }
 
-                if(input.matches("s|stop")){
+                if (input.matches("s|stop")) {
                     System.out.println("Music off");
                     //themeSong.stop();
-
                 }
-
-            }
-            else {
+            } else {
                 System.out.println("Command not recognized");
             }
-
+            riddle();
             trap();
+            bossFight();
             checkWin();
             if (checkWin) {
                 setOver(true);
                 break;
+                }
             }
         }
     }
-}
 
+
+// OPEN song
+// Theme song
+// narration & theme song will toggle opposite of each other
+    // sound fx for actions and menu selection
+// ending and winning song/sound
 
